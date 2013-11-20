@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.senanque.co.nz/pizzaorder"
+	xmlns:tns="http://www.senanque.co.nz/pizzaorder" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.0"
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+	jaxb:extensionBindingPrefixes="xjc hj annox"
+	xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations"
+	xmlns:annox="http://annox.dev.java.net"
+	xmlns:md="http://annox.dev.java.net/nz.co.senanque.validationengine.annotations"
+	elementFormDefault="qualified">
+
+	<!-- xmlns:jv="http://annox.dev.java.net/javax.validation.constraints" xmlns:hv="http://annox.dev.java.net/org.hibernate.validator.constraints" -->
+
+	<xsd:annotation>
+		<xsd:appinfo>
+			<jaxb:globalBindings generateIsSetMethod="false" localScoping="toplevel">
+		      	 <jaxb:javaType name="java.sql.Timestamp" 
+		      	 	xmlType="xsd:dateTime" 
+		      	 	parseMethod="nz.co.senanque.validationengine.ConvertUtils.parseDateTime"
+		      	 	printMethod="nz.co.senanque.validationengine.ConvertUtils.printDateTime" /> 
+		      	 <jaxb:javaType name="java.util.Date" 
+		      	 	xmlType="xsd:date" 
+		      	 	parseMethod="nz.co.senanque.validationengine.ConvertUtils.parseDate"
+		      	 	printMethod="nz.co.senanque.validationengine.ConvertUtils.printDate" /> 
+				<xjc:serializable />
+			</jaxb:globalBindings>
+			<jaxb:schemaBindings>
+				<jaxb:package name="nz.co.senanque.pizzaorder.instances" />
+			</jaxb:schemaBindings>
+		</xsd:appinfo>
+	</xsd:annotation>
+
+	<complexType name="Customer">
+		<sequence>
+			<element name="id" type="long">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:id>
+							<hj:generated-value strategy="AUTO" />
+						</hj:id>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</element>
+			<element name="version" type="long">
+				<annotation>
+					<appinfo>
+						<hj:version />
+					</appinfo>
+				</annotation>
+			</element>
+			<element name="name">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<md:Label labelName="Name" />
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+				<simpleType>
+					<restriction base="string">
+						<maxLength value="50"></maxLength>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="email">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<md:Label labelName="email" />
+							<md:Email/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+				<simpleType>
+					<restriction base="string">
+						<maxLength value="50"></maxLength>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="password">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<md:Label labelName="password" />
+							<md:Secret/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+				<simpleType>
+					<restriction base="string">
+						<maxLength value="50"></maxLength>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="address">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<md:Label labelName="delivery.address" />
+							<md:ReadPermission name="ADMIN" />
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+				<simpleType>
+					<restriction base="string">
+						<maxLength value="100"></maxLength>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="dynamic" type="boolean">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<md:Label labelName="dynamic" />
+							<md:Unknown/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</element>
+			<element name="weight" type="double">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<md:Label labelName="weight" />
+							<md:Unknown/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</element>
+			<element name="weightKilos" type="double">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<md:Label labelName="weightKilos" />
+							<md:Unknown/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</element>
+			<element name="weightPounds" type="double">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<md:Label labelName="weightPounds" />
+							<md:Unknown/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</element>
+			<element name="height" type="double">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<md:Label labelName="height" />
+							<md:Unknown/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</element>
+			<element name="heightMetric" type="double">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<md:Label labelName="heightMetric" />
+							<md:Unknown/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</element>
+			<element name="heightInches" type="double">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<md:Label labelName="heightInches"/>
+							<md:Unknown/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</element>
+			<element name="heightFeet" type="double">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<md:Label labelName="heightFeet" />
+							<md:Unknown/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</element>
+			<element name="bmi" type="double">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<md:Label labelName="BodyMassIndex" />
+							<md:Unknown/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</element>
+			<element name="preferences" type="tns:Preference" maxOccurs="unbounded"	minOccurs="0" />
+			<element name="orders" type="tns:Order" maxOccurs="unbounded"	minOccurs="0" />
+		</sequence>
+	</complexType>
+
+	<complexType name="Preference">
+		<sequence>
+			<element name="id" type="long" nillable="false">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:id>
+							<hj:generated-value strategy="AUTO" />
+						</hj:id>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</element>
+			<element name="parentid" type="long" nillable="false"></element>
+			<element name="type" type="tns:PreferenceType" nillable="false"></element>
+		</sequence>
+	</complexType>
+
+	<xsd:simpleType name="PreferenceType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="gluten" />
+			<xsd:enumeration value="shellfish" />
+			<xsd:enumeration value="lactose" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<complexType name="Order">
+		<sequence>
+			<element name="id" type="long" nillable="false">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:id>
+							<hj:generated-value strategy="AUTO" />
+						</hj:id>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</element>
+			<element name="parentid" type="long" nillable="false"></element>
+			<element name="amount" type="double">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<md:Label labelName="Amount" />
+							<md:Digits integerDigits="8" fractionalDigits="2" />
+							<md:Range minInclusive="5" maxInclusive="999" />
+							<md:ReadOnly/>
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</element>
+			<element name="date" type="date">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<md:Label labelName="Date" />
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</element>
+			<element name="customer" type="tns:Customer"/>
+			<element name="shoppingCartStatus" type="string">
+    			<xsd:annotation>
+    				<xsd:appinfo>
+    					<annox:annotate>
+							<md:ReadOnly/> 
+						</annox:annotate>
+    				</xsd:appinfo>
+    			</xsd:annotation>
+			</element>
+			<element name="orderItems" type="tns:OrderItem" maxOccurs="unbounded"
+				minOccurs="0" />
+		</sequence>
+	</complexType>
+
+	<complexType name="OrderItem">
+		<sequence>
+			<element name="id" type="long" nillable="false">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<hj:id>
+							<hj:generated-value strategy="AUTO" />
+						</hj:id>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</element>
+			<element name="parentid" type="long" nillable="false"></element>
+			<element name="amount" type="double" default="0">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<md:Label labelName="Amount" />
+							<md:Digits integerDigits="8" fractionalDigits="2" />
+							<md:Range minInclusive="5" maxInclusive="1000" />
+							<md:ReadOnly />
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</element>
+			<element name="itemType" type="tns:ItemType">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<md:Label labelName="item.type" />
+							<md:ReadOnly />
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</element>
+			<element name="name" type="string">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<md:Label labelName="name" />
+							<md:ReadOnly />
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</element>
+			<element name="description" type="string">
+				<xsd:annotation>
+					<xsd:appinfo>
+						<annox:annotate>
+							<md:Label labelName="item.name" />
+							<md:ReadOnly />
+						</annox:annotate>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="Pizza">
+		<complexContent>
+			<extension base="tns:OrderItem">
+				<sequence>
+				<!-- 
+					<element name="id" type="long">
+						<xsd:annotation>
+							<xsd:appinfo>
+								<annox:annotate>
+									<md:Label labelName="id" />
+								</annox:annotate>
+							</xsd:appinfo>
+						</xsd:annotation>
+					</element>
+					 -->
+					<element name="size">
+						<xsd:annotation>
+							<xsd:appinfo>
+								<annox:annotate>
+									<md:Label labelName="Size" />
+									<md:ChoiceList name="Sizes"/> 
+								</annox:annotate>
+							</xsd:appinfo>
+						</xsd:annotation>
+						<simpleType>
+							<restriction base="string">
+								<maxLength value="20"></maxLength>
+							</restriction>
+						</simpleType>
+					</element>
+					<element name="base" default="GlutenFree">
+						<xsd:annotation>
+							<xsd:appinfo>
+								<annox:annotate>
+									<md:Label labelName="Base" />
+									<md:ChoiceList name="Bases"/>
+									<md:Description name="bases.long"/>
+								</annox:annotate>
+							</xsd:appinfo>
+						</xsd:annotation>
+						<simpleType>
+							<restriction base="string">
+								<maxLength value="20"></maxLength>
+							</restriction>
+						</simpleType>
+					</element>
+					<element name="topping">
+						<xsd:annotation>
+							<xsd:appinfo>
+								<annox:annotate>
+									<md:Label labelName="Topping" />
+									<md:ChoiceList name="Toppings"/> 
+								</annox:annotate>
+							</xsd:appinfo>
+						</xsd:annotation>
+						<simpleType>
+							<restriction base="string">
+								<maxLength value="20"></maxLength>
+							</restriction>
+						</simpleType>
+					</element>
+					<element name="testing">
+		    			<xsd:annotation>
+		    				<xsd:appinfo>
+		    					<annox:annotate>
+									<md:Inactive/> 
+								</annox:annotate>
+		    				</xsd:appinfo>
+		    			</xsd:annotation>
+						<simpleType>
+							<restriction base="string">
+								<maxLength value="20"></maxLength>
+							</restriction>
+						</simpleType>
+					</element>
+					<element name="testDate" type="date" default="2001-01-15">
+						<xsd:annotation>
+							<xsd:appinfo>
+								<annox:annotate>
+									<md:Label labelName="testDate" />
+								</annox:annotate>
+							</xsd:appinfo>
+						</xsd:annotation>
+					</element>
+					<element name="testDouble" type="double" default="10000.50">
+						<xsd:annotation>
+							<xsd:appinfo>
+								<annox:annotate>
+									<md:Label labelName="testDouble" />
+									<md:Range maxInclusive="11000"/>
+								</annox:annotate>
+							</xsd:appinfo>
+						</xsd:annotation>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="Extra">
+		<complexContent>
+			<extension base="tns:OrderItem">
+				<sequence>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="Drink">
+		<complexContent>
+			<extension base="tns:OrderItem">
+				<sequence>
+					<element name="size">
+						<xsd:annotation>
+							<xsd:appinfo>
+								<annox:annotate>
+									<md:Label labelName="Size" />
+									<md:ChoiceList name="SizesMl"/> 
+								</annox:annotate>
+							</xsd:appinfo>
+						</xsd:annotation>
+						<simpleType>
+							<restriction base="string">
+								<maxLength value="20"></maxLength>
+							</restriction>
+						</simpleType>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="Dessert">
+		<complexContent>
+			<extension base="tns:OrderItem">
+				<sequence>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="Bread">
+		<complexContent>
+			<extension base="tns:OrderItem">
+				<sequence>
+					<element name="grain">
+						<xsd:annotation>
+							<xsd:appinfo>
+								<annox:annotate>
+									<md:Label labelName="Grain" />
+									<md:ChoiceList name="Grains"/> 
+								</annox:annotate>
+							</xsd:appinfo>
+						</xsd:annotation>
+						<simpleType>
+							<restriction base="string">
+								<maxLength value="20"></maxLength>
+							</restriction>
+						</simpleType>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="Session" type="tns:Session"></element>
+
+	<complexType name="Session">
+		<sequence>
+			<element name="user" type="string" nillable="false"></element>
+			<element name="started" type="dateTime"></element>
+			<element name="customers" type="tns:Customer" maxOccurs="unbounded"
+				minOccurs="0"></element>
+		</sequence>
+	</complexType>
+    <xsd:simpleType name="ItemType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Pizza"/>
+			<xsd:enumeration value="Drink"/>
+			<xsd:enumeration value="Bread"/>
+			<xsd:enumeration value="Extra"/>
+			<xsd:enumeration value="Dessert"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+</schema>

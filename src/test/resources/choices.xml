@@ -1,0 +1,14 @@
+<MaduraValidator>
+	<ChoiceList name="customerType">
+		<Choice name="a">A</Choice>
+		<Choice name="b">B</Choice>
+		<Choice name="c">C</Choice>
+		<Choice name="d">D</Choice>
+		<Choice name="e">E</Choice>
+		<Choice name="f">F</Choice>
+	</ChoiceList>
+	<ChoiceList name="xyz">
+		<Choice name="a">A</Choice>
+	</ChoiceList>
+</MaduraValidator>
+	

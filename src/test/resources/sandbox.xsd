@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://www.example.org/sandbox" 
+	xmlns:tns="http://www.example.org/sandbox" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.0"
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" jaxb:extensionBindingPrefixes="xjc hj annox" 
+	xmlns:hj="http://hyperjaxb3.jvnet.org/ejb/schemas/customizations" 
+	xmlns:annox="http://annox.dev.java.net"
+	xmlns:md="http://annox.dev.java.net/nz.co.senanque.validationengine.annotations"  
+	elementFormDefault="qualified">
+
+  <xsd:annotation>
+    <xsd:appinfo>
+      <jaxb:globalBindings generateIsSetMethod="false" localScoping="toplevel">
+      	 <jaxb:javaType name="java.sql.Timestamp" 
+      	 	xmlType="xsd:dateTime" 
+      	 	parseMethod="nz.co.senanque.validationengine.ConvertUtils.parseDateTime"
+      	 	printMethod="nz.co.senanque.validationengine.ConvertUtils.printDateTime" /> 
+      	 <jaxb:javaType name="java.util.Date" 
+      	 	xmlType="xsd:date" 
+      	 	parseMethod="nz.co.senanque.validationengine.ConvertUtils.parseDate"
+      	 	printMethod="nz.co.senanque.validationengine.ConvertUtils.printDate" /> 
+      	<xjc:serializable/>
+      </jaxb:globalBindings>
+      <jaxb:schemaBindings>
+        <jaxb:package name="nz.co.senanque.madura.sandbox"/>
+      </jaxb:schemaBindings>
+    </xsd:appinfo>
+  </xsd:annotation>
+	<!-- ... -->
+
+    <complexType name="Customer">
+    	<sequence>
+    		<element name="id" type="long">
+    			<xsd:annotation>
+    				<xsd:appinfo>
+						<hj:id> 
+							<hj:generated-value strategy="AUTO"/>  
+						</hj:id>
+    				</xsd:appinfo>
+    			</xsd:annotation>
+    		</element>
+			<element name="version" type="long">
+				<annotation>
+					<appinfo>
+						<hj:version/>
+					</appinfo>
+				</annotation>
+			</element>
+			<element name="business" type="tns:IndustryType"/> 
+    		<element name="key">
+    			<xsd:annotation>
+    				<xsd:appinfo>
+    					<annox:annotate>
+							<md:Label labelName="key"/>
+							<md:Range maxInclusive="100"/>
+						</annox:annotate>
+    				</xsd:appinfo>
+    			</xsd:annotation>
+    			<simpleType>
+    				<restriction base="string">
+    					<maxLength value="5"></maxLength>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="name">
+    			<xsd:annotation>
+    				<xsd:appinfo>
+    					<annox:annotate>
+							<md:Label labelName="xxx"/> 
+							<md:Description name="this is a description"/> 
+							<md:MapField name="whatever"/>
+							<md:WritePermission name="ABC"/>
+							<!--
+							<md:Regex regex="a*b"/> 
+							<jv:Min value="5" message="value=5"/>
+							<hv:Range min="9" message="this is a message"/>
+							 -->  
+						</annox:annotate>
+    				</xsd:appinfo>
+    			</xsd:annotation>
+    			<simpleType>
+    				<restriction base="string">
+    					<maxLength value="30"></maxLength>
+    					<pattern value="a*b"></pattern>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="customerType">
+    			<xsd:annotation>
+    				<xsd:appinfo>
+    					<annox:annotate>
+							<md:Label labelName="Customer Type"/> 
+							<md:Inactive/> 
+							<md:ChoiceList name="customerType"/> 
+						</annox:annotate>
+    				</xsd:appinfo>
+    			</xsd:annotation>
+    			<simpleType>
+    				<restriction base="string">
+    					<maxLength value="30"></maxLength>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="amount" default="400">
+    			<xsd:annotation>
+    				<xsd:appinfo>
+    					<annox:annotate>
+							<md:Label labelName="Amount"/>
+							<md:Unknown/>
+							<md:Digits integerDigits="8" fractionalDigits="2"/>
+							<md:Range minInclusive="100" maxInclusive="1000"/>
+						</annox:annotate>
+    				</xsd:appinfo>
+    			</xsd:annotation>
+    			<simpleType>
+    				<restriction base="double">
+    					<!--
+    					Do not use these!!!
+    					see above for the annox:annotate tag
+    					<xsd:totalDigits value="10"/>
+    					<xsd:fractionDigits value="2"/>
+    					<xsd:minInclusive value="100"/>
+    					<xsd:maxInclusive value="1000"/>
+    					 <maxLength value="30"></maxLength> -->
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="count" type="long">
+    			<xsd:annotation>
+    				<xsd:appinfo>
+    					<annox:annotate>
+							<md:Label labelName="count"/>
+						</annox:annotate>
+    				</xsd:appinfo>
+    			</xsd:annotation>
+<!--    			<simpleType>-->
+<!--    				<restriction base="long">-->
+<!--    				</restriction>-->
+<!--    			</simpleType>-->
+    		</element>
+    		<element name="amountstr" default="400">
+    			<xsd:annotation>
+    				<xsd:appinfo>
+    					<annox:annotate>
+							<md:Label labelName="Amount"/> 
+							<md:Digits integerDigits="8" fractionalDigits="2"/>
+							<md:Range minInclusive="100" maxInclusive="1000"/>
+							<md:Required/>
+						</annox:annotate>
+    				</xsd:appinfo>
+    			</xsd:annotation>
+    			<simpleType>
+    				<restriction base="string">
+    					<maxLength value="30"></maxLength>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="address" type="string">
+    			<xsd:annotation>
+    				<xsd:appinfo>
+    					<annox:annotate>
+							<md:Label labelName="xxx"/>
+							<md:Unknown/> 
+							<!-- <md:Range minValue="xxx" maxValue="yyy"/> 
+							<md:BeanValidator bean="xxx" param="yyy"/> 
+							<md:Description name="this is a description"/> --> 
+						</annox:annotate>
+    				</xsd:appinfo>
+    			</xsd:annotation>
+    		</element>
+    		<element name="oneInvoice" type="tns:Invoice" maxOccurs="1" minOccurs="0"></element>
+    		<element name="invoices" type="tns:Invoice" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="Invoice">
+    	<sequence>
+    		<element name="id" type="string" nillable="false"></element>
+    		<element name="parentid" type="string" nillable="false"></element>
+    		<element name="description" type="string"></element>
+    		<element name="amount" type="double">
+    			<xsd:annotation>
+    				<xsd:appinfo>
+    					<annox:annotate>
+							<md:Label labelName="Amount"/> 
+							<md:Digits integerDigits="8" fractionalDigits="2"/>
+							<md:Range minInclusive="100" maxInclusive="1000"/>
+						</annox:annotate>
+    				</xsd:appinfo>
+    			</xsd:annotation>
+    		</element>
+    		<element name="outstanding" type="double">
+    			<xsd:annotation>
+    				<xsd:appinfo>
+    					<annox:annotate>
+							<md:Label labelName="Outstanding"/>
+						</annox:annotate>
+    				</xsd:appinfo>
+    			</xsd:annotation>
+    		</element>
+    		<element name="date" type="date">
+    			<xsd:annotation>
+    				<xsd:appinfo>
+    					<annox:annotate>
+							<md:Label labelName="Date"/>
+						</annox:annotate>
+    				</xsd:appinfo>
+    			</xsd:annotation>
+    		</element>
+    		<element name="days" type="long">
+    			<xsd:annotation>
+    				<xsd:appinfo>
+    					<annox:annotate>
+							<md:Label labelName="Days"/>
+						</annox:annotate>
+    				</xsd:appinfo>
+    			</xsd:annotation>
+    		</element>
+    		<element name="testBoolean" type="boolean">
+    			<xsd:annotation>
+    				<xsd:appinfo>
+    					<annox:annotate>
+							<md:Label labelName="testBoolean"/>
+						</annox:annotate>
+    				</xsd:appinfo>
+    			</xsd:annotation>
+    		</element>
+   			<element name="testDefault" type="string" default="xyz">
+    			<xsd:annotation>
+    				<xsd:appinfo>
+    					<annox:annotate>
+							<md:Label labelName="testDefault"/>
+						</annox:annotate>
+    				</xsd:appinfo>
+    			</xsd:annotation>
+    		</element>
+   			<element name="testEnumDefault" type="tns:IndustryType" default="Ag"/>
+    	</sequence>
+    </complexType>
+    
+    <element name="Session" type="tns:Session"></element>
+    
+    <complexType name="Session">
+    	<sequence>
+    		<element name="user" type="string" nillable="false"></element>
+    		<element name="started" type="dateTime"></element>
+    		<element name="customers" type="tns:Customer" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+    <complexType name="BusinessCustomer" >
+		<complexContent>
+			<extension base="tns:Customer">
+				<sequence>
+    		<element name="companyName" type="string" nillable="false"></element>
+    	</sequence>
+		</extension>
+		</complexContent>
+    </complexType>
+    <xsd:simpleType name="IndustryType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Ag"/>
+			<xsd:enumeration value="fish"/>
+			<xsd:enumeration value="finance"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+</schema>

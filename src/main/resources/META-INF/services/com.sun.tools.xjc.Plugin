@@ -1,0 +1,2 @@
+com.sun.tools.xjc.addon.MaduraJAXBInterceptor
+com.sun.tools.xjc.addon.ValidatorJAXBInterceptor
