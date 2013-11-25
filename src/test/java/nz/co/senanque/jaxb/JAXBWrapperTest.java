@@ -85,7 +85,7 @@ public class JAXBWrapperTest {
 		xjcMojo.setSchemaIncludes(new String[]{"sandbox.xsd"});
 		xjcMojo.setGenerateDirectory(new File("generated-sources/xjc"));
 		xjcMojo.setVerbose(false);
-		xjcMojo.setCleanPackageDirectories(false);
+//		xjcMojo.setCleanPackageDirectories(false);
 		xjcMojo.setForceRegenerate(true);
 		xjcMojo.setRemoveOldOutput(false);
 		List<String> args = new ArrayList<String>();
@@ -99,7 +99,7 @@ public class JAXBWrapperTest {
 		args.add("-Xvalidator");
 		xjcMojo.setArgs(args);
 		xjcMojo.setProject(new MavenProject(model));
-		xjcMojo.setBuildContext(new DefaultBuildContext());
+//		xjcMojo.setBuildContext(new DefaultBuildContext());
 		xjcMojo.execute();
 	}
 }

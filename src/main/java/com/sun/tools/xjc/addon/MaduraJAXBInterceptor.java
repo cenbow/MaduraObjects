@@ -27,7 +27,6 @@ import javax.xml.bind.annotation.XmlTransient;
 import nz.co.senanque.validationengine.ListeningArray;
 import nz.co.senanque.validationengine.ValidationUtils;
 
-import org.jvnet.hyperjaxb3.codemodel.util.JTypeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.ErrorHandler;
@@ -46,7 +45,6 @@ import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.Plugin;
 import com.sun.tools.xjc.outline.ClassOutline;
 import com.sun.tools.xjc.outline.Outline;
-import com.sun.xml.xsom.XSComponent;
 
 /**
  * 
@@ -104,7 +102,7 @@ public class MaduraJAXBInterceptor extends Plugin {
 //            final JClass ValidationSessionClass=model.getCodeModel().ref(nz.co.senanque.validationengine.ValidationSession.class);
             final JClass ValidationUtilsClass=model.getCodeModel().ref(nz.co.senanque.validationengine.ValidationUtils.class);
             final JClass businessObjectInterface=model.getCodeModel().ref(nz.co.senanque.validationengine.ValidationObject.class);
-            final JType[] jTypes = JTypeUtils.getBasicTypes(model.getCodeModel());
+//            final JType[] jTypes = JTypeUtils.getBasicTypes(model.getCodeModel());
             Collection<ClassOutline> allClasses = (Collection<ClassOutline>) model.getClasses();
             for( ClassOutline co : model.getClasses() ) 
             {
