@@ -966,6 +966,7 @@
          	<xsl:attribute name="src">
          		<xsl:value-of select="@href"/>
          	</xsl:attribute>
+         	<!-- 
          	<xsl:if test="string-length(@width) &gt; 0">
 	         	<xsl:attribute name="width">
 	         		<xsl:value-of select="@width"/>
@@ -976,6 +977,7 @@
 	         		<xsl:value-of select="@height"/>
 	         	</xsl:attribute>
          	</xsl:if>
+         	 -->
          	<xsl:attribute name="onclick">
          		<xsl:text>javascript:window.open("</xsl:text>
          		<xsl:value-of select="@href"/>
