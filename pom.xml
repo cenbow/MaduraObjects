@@ -332,6 +332,14 @@ But to any Java code the objects still look like ordinary Java beans. The surrou
 						<goals>
 							<goal>attach-artifact</goal>
 						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>${pdf}</file>
+									<type>pdf</type>
+								</artifact>
+							</artifacts>
+						</configuration>
 					</execution>
 			          <execution>
 			            <id>add-test-source</id>
@@ -346,14 +354,6 @@ But to any Java code the objects still look like ordinary Java beans. The surrou
 			            </configuration>
 			          </execution>
 				</executions>
-				<configuration>
-					<artifacts>
-						<artifact>
-							<file>${pdf}</file>
-							<type>pdf</type>
-						</artifact>
-					</artifacts>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
