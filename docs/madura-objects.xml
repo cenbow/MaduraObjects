@@ -865,6 +865,12 @@ public class NewValidation implements FieldValidator<NewValidation>
 		<table width="12cm">
 			<tw>12cm</tw>
 		<tr>
+			<th>2.2.2</th>
+		</tr>
+        <tr>
+            <td>Updated Spring and slf4j dependencies.</td>
+        </tr>
+		<tr>
 			<th>2.2.1</th>
 		</tr>
         <tr>
