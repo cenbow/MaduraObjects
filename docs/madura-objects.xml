@@ -868,6 +868,9 @@ public class NewValidation implements FieldValidator<NewValidation>
 			<th>2.2.2</th>
 		</tr>
         <tr>
+            <td>Added validation session holder.</td>
+        </tr>
+        <tr>
             <td>Updated Spring and slf4j dependencies.</td>
         </tr>
 		<tr>
