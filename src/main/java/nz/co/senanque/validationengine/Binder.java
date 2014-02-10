@@ -179,10 +179,8 @@ public class Binder
 	/**
 	 * Unbind the given object. We have to locate any attached objects and unbind them first.
 	 * @param session
-	 * @param proxyField 
 	 * @param validationObject
 	 * @param boundMap
-	 * @param plugins
 	 */
 	public void unbind(ValidationSession session, ValidationObject validationObject,
 			Map<ValidationObject, ProxyObject> boundMap) {
