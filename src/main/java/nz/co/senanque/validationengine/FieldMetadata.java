@@ -155,5 +155,9 @@ public class FieldMetadata implements Serializable
 	{
 		return m_proxyField.toString();
 	}
+
+	public boolean isIdentifier() {
+		return m_proxyField.isIdentifier();
+	}
 	
 }

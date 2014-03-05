@@ -61,6 +61,7 @@ public class PropertyMetadataImpl implements PropertyMetadata {
     private transient boolean m_secret;
 	private MessageSourceAccessor m_messageSourceAccessor;
 	private boolean m_unknown;
+	private boolean m_identifier;
 	
 	protected PropertyMetadataImpl(final Class<?> clazz, final String fieldName, MessageSourceAccessor messageSourceAccessor)
 	{
@@ -313,6 +314,14 @@ public class PropertyMetadataImpl implements PropertyMetadata {
 
 	public boolean isUnknown() {
 		return m_unknown;
+	}
+
+	public void setIdentifier(boolean b) {
+		m_identifier = true;
+	}
+
+	public boolean isIdentifier() {
+		return m_identifier;
 	}
 
 }

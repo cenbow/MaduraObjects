@@ -84,7 +84,7 @@
 	</bean>
 	
 	<bean id="validationEngine" class="nz.co.senanque.validationengine.ValidationEngineImpl">
-		<!-- <property name="metadata" ref="metadata"/> -->
+		<property name="metadata" ref="metadata"/>
 		<!-- 
 		<property name="plugins">
 			<list>

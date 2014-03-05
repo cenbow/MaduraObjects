@@ -34,7 +34,6 @@ import nz.co.senanque.validationengine.metadata.PropertyMetadata;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -52,7 +51,7 @@ public final class ValidationEngineImpl implements ValidationEngine,
 {
     private final static Logger log = LoggerFactory.getLogger(ValidationEngineImpl.class);
 
-    @Autowired private transient EngineMetadata m_metadata;
+    private transient EngineMetadata m_metadata;
     private transient MessageSource m_messageSource;
     private transient Binder m_binder = new Binder(this);
     private transient List<Plugin> m_plugins = new ArrayList<Plugin>();

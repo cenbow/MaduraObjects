@@ -427,4 +427,8 @@ public class ProxyFieldImpl implements ProxyField
 		}
 	}
 
+	public boolean isIdentifier() {
+		return m_propertyMetadata.isIdentifier();
+	}
+
 }

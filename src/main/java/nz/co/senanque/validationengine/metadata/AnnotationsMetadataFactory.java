@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlElement;
 
 import nz.co.senanque.validationengine.ValidationUtils;
@@ -158,6 +159,10 @@ public class AnnotationsMetadataFactory implements FactoryBean<EngineMetadata>, 
 					{
 						fieldMetadata.setDescription(((Description)fieldAnnotation).name());
 						fieldNeeded = true;
+					}
+					if (fieldAnnotation instanceof Id)
+					{
+						fieldMetadata.setIdentifier(true);
 					}
 //						if (fieldAnnotation instanceof Regex)
 //						{
