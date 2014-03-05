@@ -868,6 +868,14 @@ public class NewValidation implements FieldValidator<NewValidation>
 			<th>2.2.2</th>
 		</tr>
         <tr>
+            <td>Captured that field is annotated as @Id (javax.persistence). This is so
+            that UI frameworks can easily make Id fields read only.</td>
+        </tr>
+        <tr>
+            <td>Removed @Autowired from ValidationEngineImpl because
+            Spring seems unable to handle two engines at once with it there.</td>
+        </tr>
+        <tr>
             <td>Added validation session holder.</td>
         </tr>
         <tr>
