@@ -15,6 +15,7 @@
  *******************************************************************************/
 package nz.co.senanque.validationengine;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +27,11 @@ import nz.co.senanque.validationengine.metadata.ClassMetadata;
  * @author Roger Parkinson
  * @version $Revision: 1.7 $
  */
-public class ObjectMetadata
+public class ObjectMetadata implements Serializable
 {
+	private static final long serialVersionUID = -6502825487182156092L;
 
-    private transient ProxyObject m_proxyObject;
+	private transient ProxyObject m_proxyObject;
 
     private transient ClassMetadata m_classMetadata;
     
