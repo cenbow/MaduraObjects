@@ -868,6 +868,9 @@ public class NewValidation implements FieldValidator<NewValidation>
 			<th>2.2.2</th>
 		</tr>
         <tr>
+            <td>Made ObjectMetadata Serializable. This is because Tomcat complains about it.</td>
+        </tr>
+        <tr>
             <td>Captured that field is annotated as @Id (javax.persistence). This is so
             that UI frameworks can easily make Id fields read only.</td>
         </tr>
