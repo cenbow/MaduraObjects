@@ -17,6 +17,7 @@
 package nz.co.senanque.sandbox;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.util.List;
 
 import nz.co.senanque.validationengine.choicelists.Choice;
@@ -94,6 +95,24 @@ public class PropertyMetadataMock implements PropertyMetadata
 
 	public MessageSourceAccessor getMessageSourceAccessor() {
 		return m_messageSourceAccessor;
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Method getGetMethod() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Method getSetMethod() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

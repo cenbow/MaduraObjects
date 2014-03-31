@@ -16,6 +16,7 @@
 
 package nz.co.senanque.validationengine;
 
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Set;
 
@@ -90,5 +91,7 @@ public interface ProxyField
 	public abstract boolean isNotKnown();
 	
 	public abstract boolean isUnknown();
+
+	public abstract Method getGetter();
 	
 }

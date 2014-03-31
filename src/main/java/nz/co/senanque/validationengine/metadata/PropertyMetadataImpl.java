@@ -20,10 +20,12 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import nz.co.senanque.validationengine.Property;
 import nz.co.senanque.validationengine.ValidationUtils;
 import nz.co.senanque.validationengine.choicelists.Choice;
 import nz.co.senanque.validationengine.choicelists.ChoiceBase;
 import nz.co.senanque.validationengine.fieldvalidators.FieldValidator;
+import nz.co.senanque.validationengine.fieldvalidators.LengthValidator;
 
 import org.springframework.context.support.MessageSourceAccessor;
 
@@ -62,14 +64,15 @@ public class PropertyMetadataImpl implements PropertyMetadata {
 	private MessageSourceAccessor m_messageSourceAccessor;
 	private boolean m_unknown;
 	private boolean m_identifier;
+	private int m_maxLength=-1;
 	
-	protected PropertyMetadataImpl(final Class<?> clazz, final String fieldName, MessageSourceAccessor messageSourceAccessor)
+	protected PropertyMetadataImpl(Property property, MessageSourceAccessor messageSourceAccessor)
 	{
-	    m_name = fieldName;
-	    m_labelName = fieldName;
-	    m_clazz = clazz;
-        m_setMethod = ValidationUtils.figureSetter(fieldName,m_clazz);
-        m_getMethod = ValidationUtils.figureGetter(fieldName,m_clazz);
+	    m_name = property.getFieldName();
+	    m_labelName = property.getFieldName();
+	    m_clazz = property.getClazz();
+        m_setMethod = property.getSetter();
+        m_getMethod = property.getGetter();
         final Class<?>[] c = m_setMethod.getParameterTypes();
         m_valueOfMethod = ValidationUtils.figureValueOf(c[0]);
         m_messageSourceAccessor = messageSourceAccessor;
@@ -322,6 +325,14 @@ public class PropertyMetadataImpl implements PropertyMetadata {
 
 	public boolean isIdentifier() {
 		return m_identifier;
+	}
+
+	public int getMaxLength() {
+		return m_maxLength;
+	}
+
+	public void setMaxLength(String maxLength) {
+		m_maxLength = Integer.parseInt(maxLength);
 	}
 
 }

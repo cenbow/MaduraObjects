@@ -431,4 +431,9 @@ public class ProxyFieldImpl implements ProxyField
 		return m_propertyMetadata.isIdentifier();
 	}
 
+	@Override
+	public Method getGetter() {
+		return m_propertyMetadata.getGetMethod();
+	}
+
 }

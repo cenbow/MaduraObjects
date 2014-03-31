@@ -29,11 +29,14 @@ import java.util.Set;
 import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlElement;
 
+import nz.co.senanque.validationengine.Property;
+import nz.co.senanque.validationengine.ValidationObject;
 import nz.co.senanque.validationengine.ValidationUtils;
 import nz.co.senanque.validationengine.annotations.ChoiceList;
 import nz.co.senanque.validationengine.annotations.Description;
 import nz.co.senanque.validationengine.annotations.Inactive;
 import nz.co.senanque.validationengine.annotations.Label;
+import nz.co.senanque.validationengine.annotations.Length;
 import nz.co.senanque.validationengine.annotations.MapField;
 import nz.co.senanque.validationengine.annotations.ReadOnly;
 import nz.co.senanque.validationengine.annotations.ReadPermission;
@@ -96,29 +99,17 @@ public class AnnotationsMetadataFactory implements FactoryBean<EngineMetadata>, 
 			log.debug("class name {}",clazz);
 			boolean classNeeded = true;
 			final ClassMetadata classMetadata = new ClassMetadata();		
-			for (Method method: clazz.getMethods())
-			{
-
+	        Map<String,Property> propertyMap = ValidationUtils.getProperties((Class<? extends ValidationObject>) clazz);
+	        for (Property property: propertyMap.values()) {
+				Method method = property.getGetter();
                 log.debug("method.getName() {}",method.getName());
                 String mname = method.getName();
-			    final String fieldName = ValidationUtils.getFieldNameFromGetterMethodName(method.getName());
-			    if (fieldName == null)
-			    {
-			        continue;
-			    }
-                if (fieldName.equals("metadata"))
-                {
-                    continue;
-                }
-                if (fieldName.equals("class"))
-                {
-                    continue;
-                }
-                final PropertyMetadataImpl fieldMetadata = new PropertyMetadataImpl(clazz,fieldName, messageSourceAccessor);
+			    final String fieldName = property.getFieldName();
+                final PropertyMetadataImpl fieldMetadata = new PropertyMetadataImpl(property, messageSourceAccessor);
 				boolean fieldNeeded = false;
 				for (Annotation fieldAnnotation: method.getAnnotations())
 				{
-					//log.debug("field annotation {}",fieldAnnotation);
+					log.debug("field annotation {}",fieldAnnotation);
                     if (fieldAnnotation instanceof Label)
                     {
                         fieldMetadata.setLabelName(((Label)fieldAnnotation).labelName());
@@ -196,6 +187,11 @@ public class AnnotationsMetadataFactory implements FactoryBean<EngineMetadata>, 
                         fieldMetadata.setChoiceList(choiceList);
                         fieldNeeded = true;
                     }
+                    if (fieldAnnotation instanceof Length)
+                    {
+                        fieldMetadata.setMaxLength(((Length)fieldAnnotation).maxLength());
+                        fieldNeeded = true;
+                    }
                     Class<? extends FieldValidator<Annotation>> fvClass = validatorMap.get(fieldAnnotation.annotationType());
                     if (fvClass != null)
                     {
@@ -238,9 +234,11 @@ public class AnnotationsMetadataFactory implements FactoryBean<EngineMetadata>, 
 				}
 				if (fieldNeeded)
 				{
-	                log.debug("fieldName added to metadata {}",fieldName);
+	                log.debug("fieldName added to metadata {}.{}",clazz.getName(),fieldName);
 					classMetadata.addField(fieldName,fieldMetadata);
 					classNeeded = true;
+				} else {
+					log.debug("fieldName not needed {}.{}",clazz.getName(),fieldName);
 				}
 			}
 			if (classNeeded)

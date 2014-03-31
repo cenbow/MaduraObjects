@@ -75,23 +75,20 @@ public class Binder
         ret.put(object, proxyObject);
         final ObjectMetadata objectMetadata = (ObjectMetadata)object.getMetadata();
         objectMetadata.setClassMetadata(proxyObject, classMetadata);
-        for (Method method : object.getClass().getMethods())
-        {
-            if (method.isAnnotationPresent(Ignore.class))
-            {
-                continue;
-            }
-            final String fieldName = ValidationUtils.getFieldNameFromGetterMethodName(method.getName());
-            final PropertyMetadataImpl fieldMetadata = classMetadata
+        Map<String,Property> propertyMap = ValidationUtils.getProperties(object.getClass());
+        for (Property property: propertyMap.values()) {
+        	String fieldName = property.getFieldName();
+            final PropertyMetadataImpl propertyMetadata = (PropertyMetadataImpl)classMetadata
                     .getField(fieldName);
-            if (fieldMetadata == null)
+            if (propertyMetadata == null)
             {
                 continue;
             }
             final ProxyFieldImpl proxyField = new ProxyFieldImpl(fieldName,
-                    proxyObject, parent, fieldMetadata, messageSourceAccessor);
+                    proxyObject, parent, propertyMetadata, messageSourceAccessor);
             proxyObject.put(fieldName, proxyField);
-            if (method.getReturnType().isAssignableFrom(List.class))
+            Method method = property.getGetter();
+            if (property.getGetter().getReturnType().isAssignableFrom(List.class))
             {
                 try
                 {
@@ -100,7 +97,7 @@ public class Binder
                     array.addAll(validationObjects);
                     array.setValidationSession(session);
                     array.setProxyField(proxyField);
-                    final Method setterMethod = object.getClass().getMethod(ValidationUtils.figureSetter(fieldName), List.class);
+                    final Method setterMethod = property.getSetter();
                     setterMethod.invoke(object, array);
                     int index1 = 0;
                     for (ValidationObject child : validationObjects)
@@ -134,13 +131,6 @@ public class Binder
                 if (xmlElement != null)
                 {
                 	Object value = proxyField.getValue();
-//                    String defaultValue = xmlElement.defaultValue().trim();
-//                    if (StringUtils.hasText(defaultValue))
-//                    {
-//                        final Method setterMethod = clazz.getMethod(ValidationUtils.figureSetter(fieldName), propertyField.getType());
-//                        Object convertedDefaultValue = ConvertUtils.convertToObject(propertyField.getType(), defaultValue);
-//                        setterMethod.invoke(object, convertedDefaultValue);
-//                    }
                     proxyField.setInitialValue(value);
                 }
             }
@@ -189,11 +179,8 @@ public class Binder
 		}
 		// For all the fields: look for attached objects.
 		ProxyObject proxyObject = session.getProxyObject(validationObject);
-		for (Method method : validationObject.getClass().getMethods()) {
-			if (method.isAnnotationPresent(Ignore.class)) {
-				continue;
-			}
-			final String fieldName = ValidationUtils.getFieldNameFromGetterMethodName(method.getName());
+		Map<String,ProxyField> fieldMap = proxyObject.getFieldMap();
+		for (String fieldName: fieldMap.keySet()) {
 			if (fieldName != null) {
 				final ClassMetadata classMetadata = m_validationEngine.getClassMetadata(validationObject.getClass());
 				final PropertyMetadata fieldMetadata = classMetadata.getField(fieldName);
@@ -201,11 +188,12 @@ public class Binder
 					continue;
 				}
 				ProxyField proxyField = proxyObject.getProxyField(fieldName);
-				if (method.getReturnType().isAssignableFrom(List.class)) {
+				Method getter = proxyField.getGetter();
+				if (getter.getReturnType().isAssignableFrom(List.class)) {
 					// if this is a list then walk the list and unbind the objects there.
 					try {
 						final List<ValidationObject> validationObjects = 
-								(List<ValidationObject>) method.invoke(validationObject, new Object[] {});
+								(List<ValidationObject>) getter.invoke(validationObject, new Object[] {});
 						for (ValidationObject child : validationObjects) {
 							m_validationEngine.unbind(session, proxyField, child, boundMap);
 						}
@@ -214,10 +202,10 @@ public class Binder
 					}
 					continue;
 				}
-				if (m_validationEngine.getClassMetadata(method.getReturnType()) != null) {
+				if (m_validationEngine.getClassMetadata(getter.getReturnType()) != null) {
 					// if this is a known object then unbind it
 					try {
-						ValidationObject child = (ValidationObject) method
+						ValidationObject child = (ValidationObject) getter
 								.invoke(validationObject, new Object[] {});
 						m_validationEngine.unbind(session, proxyField, child, boundMap);
 					} catch (Exception e) {

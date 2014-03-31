@@ -22,9 +22,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlElement;
 
+import nz.co.senanque.validationengine.annotations.Ignore;
 import nz.co.senanque.validationengine.annotations.Unknown;
 
 import org.springframework.util.StringUtils;
@@ -41,6 +43,63 @@ public final class ValidationUtils
     {
         // Ensures class cannot be instantiated
     }
+    private static boolean isUsefulField(String property, Class<?> clazz)
+    {
+    	if (property == null) {
+    		return false;
+    	}
+        if (property.equals("validationSession"))
+        {
+            return false;
+        }
+        if (property.equals("class"))
+        {
+            return false;
+        }
+        if (property.equals("id"))
+        {
+            return false;
+        }
+        if (property.equals("parentid"))
+        {
+            return false;
+        }
+        if (property.equals("metadata"))
+        {
+            return false;
+        }
+        if (property.equals("version"))
+        {
+            return false;
+        }
+        if (clazz != null && List.class.isAssignableFrom(clazz))
+        {
+            return false;
+        }
+        return true;
+    }
+    
+    
+    public static Map<String,Property> getProperties(Class<? extends ValidationObject> class1) {
+    	Map<String,Property> ret = new HashMap<>(class1.getMethods().length);
+		for (Method method: class1.getMethods())
+		{
+		    final String fieldName = ValidationUtils.getFieldNameFromGetterMethodName(method.getName());
+            if (!ValidationUtils.isUsefulField(fieldName, null))
+            {
+                continue;
+            }
+            Method getter = ValidationUtils.figureGetter(fieldName,class1);
+            if (getter.isAnnotationPresent(Ignore.class)) {
+            	continue;
+            }
+            Method setter = ValidationUtils.figureSetter(fieldName,class1);
+            ret.put(fieldName,new Property(fieldName,getter,setter,class1));
+        }
+        return ret;
+    	
+    }
+
     public static void setDefaults(ValidationObject object)
     {
 		for (Field field : object.getClass().getDeclaredFields())
@@ -131,19 +190,19 @@ public final class ValidationUtils
     {
        return name==null?null:Character.toLowerCase(name.charAt(0))+name.substring(1);
     }
-    public static String figureSetter(final String name)
+    private static String figureSetter(final String name)
     {
         return name==null?null:"set"+Character.toUpperCase(name.charAt(0))+name.substring(1);
     }
-    public static String figureGetter(final String name)
+    private static String figureGetter(final String name)
     {
         return name==null?null:"get"+Character.toUpperCase(name.charAt(0))+name.substring(1);
     }
-    public static String figureIsGetter(final String name)
+    private static String figureIsGetter(final String name)
     {
         return name==null?null:"is"+Character.toUpperCase(name.charAt(0))+name.substring(1);
     }
-    public static Method figureSetter(final String name, final Class<?> clazz)
+    private static Method figureSetter(final String name, final Class<?> clazz)
     {
         final String setter = figureSetter(name);
         for (Method method: clazz.getMethods())
@@ -155,7 +214,7 @@ public final class ValidationUtils
         }
         throw new RuntimeException("Could not find method "+setter+" on class "+clazz.getName());
     }
-    public static Method figureGetter(final String name, final Class<?> clazz)
+    private static Method figureGetter(final String name, final Class<?> clazz)
     {
         final String getter = figureGetter(name);
         for (Method method: clazz.getMethods())

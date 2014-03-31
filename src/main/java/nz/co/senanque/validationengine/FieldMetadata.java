@@ -16,6 +16,7 @@
 package nz.co.senanque.validationengine;
 
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.util.List;
 
 import nz.co.senanque.validationengine.choicelists.ChoiceBase;
@@ -158,6 +159,14 @@ public class FieldMetadata implements Serializable
 
 	public boolean isIdentifier() {
 		return m_proxyField.isIdentifier();
+	}
+
+	public Method getGetter() {
+		return m_propertyMetadata.getGetMethod();
+	}
+
+	public int getMaxLength() {
+		return m_propertyMetadata.getMaxLength();
 	}
 	
 }

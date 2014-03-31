@@ -16,6 +16,7 @@
 package nz.co.senanque.validationengine.metadata;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.util.List;
 
 import nz.co.senanque.validationengine.choicelists.Choice;
@@ -33,10 +34,13 @@ import org.springframework.context.support.MessageSourceAccessor;
  */
 public interface PropertyMetadata
 {
+    String getName();
     String getLabelName();
     List<ChoiceBase> getChoiceList();
     Choice findChoice(String key);
     Class<?> getClazz();
     List<FieldValidator<Annotation>> getConstraintValidators();
     MessageSourceAccessor getMessageSourceAccessor();
+    Method getGetMethod();
+    Method getSetMethod();
 }

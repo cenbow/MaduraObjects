@@ -17,9 +17,12 @@ package nz.co.senanque.validationengine;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import nz.co.senanque.validationengine.metadata.ClassMetadata;
+import nz.co.senanque.validationengine.metadata.PropertyMetadata;
+import nz.co.senanque.validationengine.metadata.PropertyMetadataImpl;
 
 /**
  * Wraps the proxy object so it can be accessed for public use
@@ -52,7 +55,7 @@ public class ObjectMetadata implements Serializable
     public FieldMetadata getFieldMetadata(final String name)
     {
         return new FieldMetadata((ProxyFieldImpl)m_proxyObject.getProxyField(name),
-                m_classMetadata.getField(name));
+                (PropertyMetadataImpl) m_classMetadata.getField(name));
     }
     /* (non-Javadoc)
      * @see nz.co.senanque.validationengine.ObjectMetadata#getProxyField(java.lang.String)
@@ -112,5 +115,9 @@ public class ObjectMetadata implements Serializable
 	}
 	public boolean isUnknown(String name) {
 		return m_unknowns.contains(name);	
+	}
+	public Collection<PropertyMetadata> getAllPropertyMetadata() {
+		// TODO Auto-generated method stub
+		return m_classMetadata.getAllFields();
 	}
 }

@@ -15,6 +15,8 @@
  *******************************************************************************/
 package nz.co.senanque.validationengine.metadata;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,16 +28,20 @@ import java.util.Map;
  */
 public class ClassMetadata
 {
-    private final transient Map<String, PropertyMetadataImpl> m_fieldMap = new HashMap<String, PropertyMetadataImpl>();
+    private final transient Map<String, PropertyMetadata> m_fieldMap = new HashMap<String, PropertyMetadata>();
 
-    protected void addField(final String fieldName, final PropertyMetadataImpl fieldMetadata)
+    protected void addField(final String fieldName, final PropertyMetadata fieldMetadata)
     {
         m_fieldMap.put(fieldName, fieldMetadata);
     }
 
-    public PropertyMetadataImpl getField(final String name)
+    public PropertyMetadata getField(final String name)
     {
         return m_fieldMap.get(name);
+    }
+    
+    public Collection<PropertyMetadata> getAllFields() {
+    	return Collections.unmodifiableCollection(m_fieldMap.values());
     }
 
 }
