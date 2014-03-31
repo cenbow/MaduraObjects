@@ -868,6 +868,9 @@ public class NewValidation implements FieldValidator<NewValidation>
 			<th>2.2.2</th>
 		</tr>
         <tr>
+            <td>Exposed more metadata so that clients can get the details of the objects and fields.</td>
+        </tr>
+        <tr>
             <td>Made ObjectMetadata Serializable. This is because Tomcat complains about it.</td>
         </tr>
         <tr>
