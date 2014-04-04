@@ -47,4 +47,5 @@ public interface ValidationEngine
     ValidationSession createSession(Locale locale);
     void unbindAll(ValidationSession session, Map<ValidationObject, ProxyObject> boundMap);
     String getStats(ValidationSession session);
+    String getIdentifier();
 }

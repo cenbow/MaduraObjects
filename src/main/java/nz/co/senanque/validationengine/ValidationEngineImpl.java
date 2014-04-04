@@ -55,6 +55,7 @@ public final class ValidationEngineImpl implements ValidationEngine,
     private transient MessageSource m_messageSource;
     private transient Binder m_binder = new Binder(this);
     private transient List<Plugin> m_plugins = new ArrayList<Plugin>();
+    private transient String m_identifier="not set";
 
 	private MessageSourceAccessor m_messageSourceAccessor;
 
@@ -361,4 +362,10 @@ public final class ValidationEngineImpl implements ValidationEngine,
             plugin.init(getMetadata());
         }
     }
+	public String getIdentifier() {
+		return m_identifier;
+	}
+	public void setIdentifier(String identifier) {
+		m_identifier = identifier;
+	}
 }
