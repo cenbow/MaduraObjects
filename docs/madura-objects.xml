@@ -17,9 +17,9 @@
 			<reference t="Hyperjaxb3" url="https://hyperjaxb3.dev.java.net/" />
 			<reference t="JSR-303" url="http://blog.jteam.nl/2009/08/04/bean-validation-integrating-jsr-303-with-spring/"/>
 			<reference t="Annox" url="http://confluence.highsource.org/display/ANX/Home"/>
-			<reference t="MaduraObjects" url="www.madurasoftware.com/home/madura-objects"/>
+			<reference t="MaduraObjects" url="https://github.com/RogerParkinson/MaduraObjects"/>
 			<reference t="MaduraBundles" url="https://github.com/RogerParkinson/MaduraBundle"/>
-			<reference t="MaduraRules" url="www.madurasoftware.com/home/madura-rules"/>
+			<reference t="MaduraRules" url="https://github.com/RogerParkinson/MaduraRules"/>
 			<reference t="Apache Licence 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
 		</references>
 	</title>
@@ -867,6 +867,12 @@ public class NewValidation implements FieldValidator<NewValidation>
 		<tr>
 			<th>2.2.2</th>
 		</tr>
+        <tr>
+            <td>Fixed badly trapped validation error.</td>
+        </tr>
+        <tr>
+            <td>Added engine identifier, useful for debugging.</td>
+        </tr>
         <tr>
             <td>Exposed more metadata so that clients can get the details of the objects and fields.</td>
         </tr>
