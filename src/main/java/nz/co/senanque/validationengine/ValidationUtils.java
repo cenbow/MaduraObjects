@@ -111,7 +111,7 @@ public final class ValidationUtils
 				Method setter = figureSetter(field.getName(),object.getClass());
 				Class<?> type = setter.getParameterTypes()[0];
 				try {
-					setter.invoke(object, ConvertUtils.convertToObject(type,value));
+					setter.invoke(object, ConvertUtils.convertToObject(type,value,null));
 				} catch (Exception e) {
 					throw new RuntimeException(e);
 				}

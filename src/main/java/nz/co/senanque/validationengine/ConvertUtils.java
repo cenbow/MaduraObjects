@@ -23,6 +23,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import nz.co.senanque.localemanagement.LocaleAwareRuntimeException;
+
 import org.springframework.context.support.MessageSourceAccessor;
 
 /**
@@ -135,7 +137,7 @@ public class ConvertUtils
         throw new RuntimeException("Cannot convert from "+obj.getClass().getName()+" to "+clazz.getName());
     }
     
-    public static Object convertToObject(Class<?> clazz, Object obj)
+    public static Object convertToObject(Class<?> clazz, Object obj, MessageSourceAccessor messageSourceAccessor)
     {
         try
         {
@@ -158,7 +160,12 @@ public class ConvertUtils
                 {
                 }
             }
-            throw new RuntimeException("Cannot convert from "+obj.getClass().getName()+" to "+clazz.getName());
+            if (messageSourceAccessor != null) {
+	            String message = messageSourceAccessor.getMessage(s_message, new Object[]{ obj.getClass().getSimpleName(),clazz.getSimpleName() });
+	            throw new ValidationException(message);
+            } else {
+            	throw new RuntimeException("Cannot convert from "+obj.getClass().getName()+" to "+clazz.getName());
+            }
         }
     }
     private static final SimpleDateFormat s_dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
