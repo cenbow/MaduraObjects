@@ -214,7 +214,7 @@ public final class ValidationUtils
         }
         throw new RuntimeException("Could not find method "+setter+" on class "+clazz.getName());
     }
-    private static Method figureGetter(final String name, final Class<?> clazz)
+    public static Method figureGetter(final String name, final Class<?> clazz)
     {
         final String getter = figureGetter(name);
         for (Method method: clazz.getMethods())
