@@ -33,9 +33,9 @@ import nz.co.senanque.validationengine.metadata.PropertyMetadata;
  */
 public class EmailValidator implements FieldValidator<Email>
 {
-    private static String ATOM = "[^\\x00-\\x1F^\\(^\\)^\\<^\\>^\\@^\\,^\\;^\\:^\\\\^\\\"^\\.^\\[^\\]^\\s]";
-    private static String DOMAIN = "(" + ATOM + "+(\\." + ATOM + "+)*";
-    private static String IP_DOMAIN = "\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\]";
+    private String ATOM = "[^\\x00-\\x1F^\\(^\\)^\\<^\\>^\\@^\\,^\\;^\\:^\\\\^\\\"^\\.^\\[^\\]^\\s]";
+    private String DOMAIN = "(" + ATOM + "+(\\." + ATOM + "+)*";
+    private String IP_DOMAIN = "\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\]";
     private Pattern m_pattern;
     private String m_message;
     private PropertyMetadata m_propertyMetadata;
