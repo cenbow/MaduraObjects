@@ -16,11 +16,13 @@
 package nz.co.senanque.sandbox;
 
 
+import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
+import javax.persistence.PersistenceContext;
+
 import nz.co.senanque.madura.sandbox.Customer;
 import nz.co.senanque.madura.sandbox.ObjectFactory;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.ResourceTransactionManager;
 
@@ -31,9 +33,10 @@ import org.springframework.transaction.support.ResourceTransactionManager;
  * @author Roger Parkinson
  * @version $Revision: 1.4 $
  */
-public class CustomerDAOImpl implements CustomerDAO 
+public class CustomerJPAImpl implements CustomerDAO 
 {
-    private transient SessionFactory m_sessionFactory;
+	@PersistenceContext
+	private EntityManager m_entityManager;
     private transient ObjectFactory m_objectFactory;
     private transient SubTransaction m_subTransaction;
     private transient ResourceTransactionManager m_txManager;
@@ -52,17 +55,10 @@ public class CustomerDAOImpl implements CustomerDAO
     @Transactional
     public long save(final Customer customer)
     {
-        final Session session = getSessionFactory().getCurrentSession();
-        session.saveOrUpdate(customer);
-        session.flush();
+    	m_entityManager.persist(customer);
+    	m_entityManager.flush();
         return customer.getId();
     }
-	public SessionFactory getSessionFactory() {
-		return m_sessionFactory;
-	}
-	public void setSessionFactory(final SessionFactory sessionFactory) {
-		m_sessionFactory = sessionFactory;
-	}
 	public ObjectFactory getObjectFactory() {
 		return m_objectFactory;
 	}
@@ -75,35 +71,18 @@ public class CustomerDAOImpl implements CustomerDAO
 	@Transactional(readOnly=true)
     public Customer getCustomer(long id)
     {
-        final Session session = getSessionFactory().getCurrentSession();
-        //SessionFactoryUtils.getSession(getSessionFactory(), false);
-        final Customer customer = (Customer)session.get("nz.co.senanque.madura.sandbox.Customer", id);
-        customer.getInvoices().size();
-        return customer;
+		Customer ret = null;
+		try {
+			ret = m_entityManager.find(Customer.class, id, LockModeType.PESSIMISTIC_WRITE);
+			if (ret == null) {
+				throw new RuntimeException("Could not find customer "+id);
+			}
+			ret.getInvoices().size();
+		} catch (Exception e) {
+			throw e;
+		}
+        return ret;
     }
-//	public void transactionTester()
-//	{
-//	    final DefaultTransactionDefinition def = new DefaultTransactionDefinition();
-//	    // explicitly setting the transaction name is something that can only be done programmatically
-//	    def.setName("SomeTxName");
-//	    def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-//	    def.setReadOnly(true);
-//
-//	    final TransactionStatus status = m_txManager.getTransaction(def);
-//        Session session = getSessionFactory().getCurrentSession();
-//        final Transaction transaction = session.getTransaction();
-//        Query query = session.createQuery("select p from nz.co.senanque.madura.sandbox.Customer p");
-//        List<Customer> customers = query.list();
-//        for (Customer customer: customers)
-//        {
-//            final Session session1 = getSessionFactory().openSession();
-//            final Session currentSession = getSessionFactory().getCurrentSession();
-//            final Transaction transaction1 = currentSession.getTransaction();
-//            getSubTransaction().process(customer);
-//        }
-//        
-//	    
-//	}
     public SubTransaction getSubTransaction()
     {
         return m_subTransaction;

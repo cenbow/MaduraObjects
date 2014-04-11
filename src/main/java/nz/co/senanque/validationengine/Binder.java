@@ -1,9 +1,9 @@
 /*******************************************************************************
- * Copyright (c)2013 Prometheus Consulting
+ * Copyright (c)2014 Prometheus Consulting
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *  http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -24,7 +24,6 @@ import java.util.Map;
 import javax.xml.bind.annotation.XmlElement;
 
 import nz.co.senanque.localemanagement.LocaleAwareRuntimeException;
-import nz.co.senanque.validationengine.annotations.Ignore;
 import nz.co.senanque.validationengine.metadata.ClassMetadata;
 import nz.co.senanque.validationengine.metadata.PropertyMetadata;
 import nz.co.senanque.validationengine.metadata.PropertyMetadataImpl;

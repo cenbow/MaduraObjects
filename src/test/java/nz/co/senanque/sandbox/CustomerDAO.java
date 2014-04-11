@@ -1,9 +1,9 @@
 /*******************************************************************************
- * Copyright (c)2013 Prometheus Consulting
+ * Copyright (c)2014 Prometheus Consulting
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * You may obtain a copy of the License at
  *
  *  http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,17 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-
 package nz.co.senanque.sandbox;
 
 import nz.co.senanque.madura.sandbox.Customer;
 
-import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
- * Short description
+ * Simple DAO for Customer
  * 
  * @author Roger Parkinson
  * @version $Revision: 1.4 $
@@ -41,9 +39,9 @@ public interface CustomerDAO
     long save(Customer customer);
 
     Customer getCustomer(long id);
-    SessionFactory getSessionFactory();
+//    SessionFactory getSessionFactory();
 
-    @Transactional(readOnly = true)
-    void transactionTester();
+//    @Transactional(readOnly = true)
+//    void transactionTester();
 
 }

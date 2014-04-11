@@ -31,10 +31,10 @@
 		<p>Imagine Business Objects looking like ordinary Java Objects, specifically they look like Java objects generated from JAXB<referenceLink t="JAXB"/>. That means there are setters and
 		getters for the properties, there are no constructor arguments (so they are simple beans so far) and they use the array stuff that JAXB generates.</p>
 		<p>Since they actually <emph>are</emph> Java objects generated from JAXB they are backed by a schema file and they can be serialised to XML easily.</p>
-		<p>And since they are actually generated using the HyperJAXB3<referenceLink t="Hyperjaxb3"/> plugin they are Hibernate<referenceLink t="Hibernate"/> compatible.</p>
+		<p>And since they are actually generated using the HyperJAXB3<referenceLink t="Hyperjaxb3"/> plugin they are JPA compatible.</p>
 		<p>So far, so standard. Programming with these beans takes ordinary Java skills. Designing the Business Objects in XSD takes a little more but nothing that
-		cannot be picked up in an hour or two, especially if you already know Hibernate. Knowing Hibernate is a more serious requirement
-		but Hibernate skills can be reasonably expected.</p>
+		cannot be picked up in an hour or two, especially if you already know JPA. Knowing JPA is a more serious requirement
+		but JPA skills can be reasonably expected.</p>
 		<p>But we can add a little more. Using another JAXB plugin called Annox<referenceLink t="Annox"/> we can add annotations to the business objects generated from the XSD. This means that
 		fixed metadata (as opposed to dynamic metadata) can be added to the business objects. The best example is a field label.</p>
 		<p>Now for the cool bit. The Business Objects need to self-validate, and they need to self-validate based on the whole object graph they are in. So, for example
@@ -90,10 +90,10 @@
 		<h2 t="Advantages">
 		<p>The advantages of all this should be obvious but let's spell them out:</p>
 		<list>
-		<le>There is no API to learn. It is just ordinary Java. Not quite true, as we shall see, but the API is much smaller than Hibernate. 
+		<le>There is no API to learn. It is just ordinary Java. Not quite true, as we shall see, but the API is smaller than JPA. 
 		Almost all the time you are just operating simple Java objects.</le>
 		<le>Serialising to XML and back for web service messages etc is easily handled by standard JAXB. The other main use for this is generating XSL/FO reports.</le>
-		<le>Database is handled by Hibernate (thanks to HyperJAXB3).</le>
+		<le>Database is handled by JPA (thanks to HyperJAXB3).</le>
 		<le>Objects are defined outside of Java, in an XSD file. This means they get generated and they cannot be messed about with by people adding code to them when they
 		shouldn't.</le>
 		<le>Simple objects means simple DAOs and simple UI code.</le>
@@ -105,7 +105,7 @@
 // Create a new session using the (probably injected) engine.
 ValidationSession validationSession = m_validationEngine.createSession();
 
-// create a customer using the (probably injected DAO)
+// create a customer using the (probably injected) DAO
 Customer customer = m_customerDAO.createCustomer();
 // This tells the validation session about the object
 validationSession.bind(customer);
@@ -239,7 +239,7 @@ public Customer getCustomer(long id)
     	</sequence>
     </complexType>
 		]]></code>
-		<p>This is typical for HyperJAXB3 use. The two fields provide an id and a version and they tell Hibernate to auto-generate the id field and
+		<p>This is typical for HyperJAXB3 use. The two fields provide an id and a version and they tell JPA to auto-generate the id field and
 		manage the object through the version field.</p>
 		<p>Now we can look at individual fields.</p>
 		<code><![CDATA[
@@ -452,7 +452,7 @@ public Customer getCustomer(long id)
 		<p>How much API did we see in the examples in <sectionLink t="Examples"/>? The validation engine object has a createSession method. 
 		We also have a bind method on the validation session.</p>
 		<p>Yes, that is about it.</p>
-		<p>Objects that have just been fetched from Hibernate or unpacked from XML by JAXB need to be
+		<p>Objects that have just been fetched from a database or unpacked from XML by JAXB need to be
 		bound. This effectively locks the session onto those objects and starts it monitoring it.</p>
 		<p>The session also has a getMetadata method which is used to get information about the object.
 		The details of this will come later but the field label, currently valid options, and various
@@ -476,7 +476,7 @@ public Customer getCustomer(long id)
 		<p>The items marked dynamic may be set in the XSD and/or they may be modified by validation plugins dynamically.</p>
 		</h2>
 		<h2 t="Session">
-		<p>Like Hibernate there is a session, a Madura Objects session is called a ValidationSession. It has the following methods:</p>
+		<p>A Madura Objects session is called a ValidationSession. It has the following methods:</p>
 		<list>
 		<ll name="bind">Binds a ValidationObject to the session, including all its attached objects.</ll>
 		<ll name="close">Closes a the session.</ll>
@@ -493,7 +493,7 @@ public Customer getCustomer(long id)
 		</list>
 		<p>As well as these there are various setters that define the package(s) containing the Business Objects, the rules engines to attach to it and the locking behaviour of 
 		the persistence. These are intended to be wired in rather than driven directly from the application.</p>
-		<p>The persistence for the Session is the calling application's responsibility. You probably want to save them to Hibernate, or you can
+		<p>The persistence for the Session is the calling application's responsibility. You probably want to save them to a database using JPA, or you can
 		serialise to XML and save them in that form.</p>
 		<p>When you use MaduraBundles<referenceLink t="MaduraBundles"/> the session factory is bundle aware. A new session is created with the default bundle. An existing session is run against the bundle it was created with.</p>
 		</h2>
@@ -551,7 +551,7 @@ public Customer getCustomer(long id)
 		<h2 t="Choice Lists">
 		<p>When a field has a discrete list of values then it can be defined as a choice list. UIs usually represent choice lists as a drop down list or radio buttons.</p>
 		<p>There are two ways to define choice lists in Madura Objects. The simplest way is to have them defined as Enum fields. See <sectionLink t="Examples"/> for an example.
-		This approach is fully supported by Madura Objects (which was easy because it is fully supported by JAXB and Hibernate and HyperJAXB3). You use this approach
+		This approach is fully supported by Madura Objects (which was easy because it is fully supported by JAXB and JPA and HyperJAXB3). You use this approach
 		when you have no need to change the values in the list without recompiling your application, which is the usual case.</p>
 		<p>Sometimes the values may be more dynamic and need to be defined outside the application. In this case you need to use this notation in your XSD file.</p>
 		<code><![CDATA[
@@ -586,7 +586,7 @@ public Customer getCustomer(long id)
 		exceptions delivered when something goes wrong. And it is possible to have multiple different plugins monitoring the objects. There are several choices
 		that can be made here.</p>
 		<p>The simplest case is nothing at all. No validation session is bound to the objects and they really are POJOs, with the exception that they are available to
-		both Hibernate and JAXB for serialisation.</p>
+		both JPA and JAXB for serialisation.</p>
 		<p>The next simplest case is to use just the validation engine without plugins. With this in place single fields are validated transparently, but no cross-field validation takes place.
 		For example you can add a list of valid values (a fixed list, which is not different to an enum), a regex expression, length checks on strings and min and max
 		checks on values. Violation of these rules will reject the proposed value and deliver an exception. On its own this is worth having.</p>
@@ -679,7 +679,7 @@ public Customer getCustomer(long id)
 	</property>
 </bean>
 		]]></code>
-		<p>There is not much to this, although you will want to do more if you are using Hibernate etc, and you probably are. See the source
+		<p>There is not much to this, although you will want to do more if you are using JPA etc, and you probably are. See the source
 		for a complete example and runnable test. The messageSource bean needs to be loaded with some specific messages (in this case held in
 		the file ValidationMessages.properties). These are the requied contents:</p>
 		<code>
@@ -846,19 +846,9 @@ public class NewValidation implements FieldValidator<NewValidation>
 		which is included in the source. This is an example (by Olivier Jolly) of mapping a Spring message source to JDBC queries.</p>
 		</h2>
 		</h1>
-		<a1 t="Licence">
-			<p>The code specific to MaduraObjects is licenced under the Apache Licence 2.0 <referenceLink t="Apache Licence 2.0"/>.</p>
-			<p>The dependent products have the following licences:</p>
-			<list>
-			<ll name="jaxb">Dual license consisting of the CDDL v1.0 and GPL v2</ll>
-			<ll name="hyperjaxb3">The BSD Style License</ll>
-			<ll name="hibernate">GNU Lesser General Public License, Version 2.1</ll>
-			<ll name="persistance-api">Common Development and Distribution License (CDDL) v1.0</ll>
-			<ll name="maduraconfiguration">Apache Software License, Version 2.0</ll>
-			<ll name="slf4j">SLF4J License, V1.0</ll>
-			<ll name="Spring Framework">Apache Software License, Version 2.0</ll>
-			<ll name="jdom">Apache Software License, Version 2.0</ll>
-			</list> 
+		<a1 t="License">
+			<p>The code specific to MaduraObjects is licensed under the Apache License 2.0 <referenceLink t="Apache Licence 2.0"/>.</p>
+			<p>The dependent products have compatible licenses as specified in their pom files.</p>
 		</a1>
 		<a1 t="Release Notes">
 		<note>You need Java 1.7 to compile this project.</note>
@@ -867,6 +857,9 @@ public class NewValidation implements FieldValidator<NewValidation>
 		<tr>
 			<th>2.2.2</th>
 		</tr>
+        <tr>
+            <td>Added choices.xsd file.</td>
+        </tr>
         <tr>
             <td>Fixed badly trapped validation error.</td>
         </tr>
