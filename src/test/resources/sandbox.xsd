@@ -28,7 +28,7 @@ limitations under the License.
   <xsd:annotation>
     <xsd:appinfo>
       <jaxb:globalBindings generateIsSetMethod="false" localScoping="toplevel">
-      	 <jaxb:javaType name="java.sql.Timestamp" 
+      	 <jaxb:javaType name="java.util.Date" 
       	 	xmlType="xsd:dateTime" 
       	 	parseMethod="nz.co.senanque.validationengine.ConvertUtils.parseDateTime"
       	 	printMethod="nz.co.senanque.validationengine.ConvertUtils.printDateTime" /> 

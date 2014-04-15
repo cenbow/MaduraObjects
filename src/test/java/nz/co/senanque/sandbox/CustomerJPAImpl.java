@@ -24,11 +24,10 @@ import nz.co.senanque.madura.sandbox.Customer;
 import nz.co.senanque.madura.sandbox.ObjectFactory;
 
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.ResourceTransactionManager;
 
 /**
  * 
- * Short description
+ * Customer DAO which uses JPA
  * 
  * @author Roger Parkinson
  * @version $Revision: 1.4 $
@@ -38,24 +37,17 @@ public class CustomerJPAImpl implements CustomerDAO
 	@PersistenceContext
 	private EntityManager m_entityManager;
     private transient ObjectFactory m_objectFactory;
-    private transient SubTransaction m_subTransaction;
-    private transient ResourceTransactionManager m_txManager;
 
-    /* (non-Javadoc)
-     * @see nz.co.senanque.sandbox.CustomerDAO#createCustomer()
-     */
     public Customer createCustomer()
     {
         return getObjectFactory().createCustomer();
 
     }
-    /* (non-Javadoc)
-     * @see nz.co.senanque.sandbox.CustomerDAO#save(nz.co.senanque.madura.sandbox.Customer, org.hibernate.Session)
-     */
+
     @Transactional
     public long save(final Customer customer)
     {
-    	m_entityManager.persist(customer);
+    	m_entityManager.merge(customer);
     	m_entityManager.flush();
         return customer.getId();
     }
@@ -65,9 +57,7 @@ public class CustomerJPAImpl implements CustomerDAO
 	public void setObjectFactory(final ObjectFactory objectFactory) {
 		m_objectFactory = objectFactory;
 	}
-    /* (non-Javadoc)
-     * @see nz.co.senanque.sandbox.CustomerDAO#getCustomer(long, org.hibernate.Session)
-     */
+
 	@Transactional(readOnly=true)
     public Customer getCustomer(long id)
     {
@@ -83,21 +73,4 @@ public class CustomerJPAImpl implements CustomerDAO
 		}
         return ret;
     }
-    public SubTransaction getSubTransaction()
-    {
-        return m_subTransaction;
-    }
-    public void setSubTransaction(final SubTransaction subTransaction)
-    {
-        m_subTransaction = subTransaction;
-    }
-    public ResourceTransactionManager getTxManager()
-    {
-        return m_txManager;
-    }
-    public void setTxManager(final ResourceTransactionManager txManager)
-    {
-        m_txManager = txManager;
-    }
-
 }
