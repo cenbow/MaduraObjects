@@ -207,19 +207,19 @@ public class ConvertUtils
         }
         return s_dateFormat.format(c);
     }
-    public static final Timestamp parseDateTime(String d)
+    public static final Date parseDateTime(String d)
     {
         if (d == null)
         {
             return null;
         }
          try {
-            return new Timestamp(s_dateTimeFormat.parse(d).getTime());
+            return new Date(s_dateTimeFormat.parse(d).getTime());
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
     }
-    public static final String printDateTime(Timestamp c)
+    public static final String printDateTime(Date c)
     {
         if (c == null)
         {
