@@ -3,7 +3,7 @@
 	<groupId>nz.co.senanque</groupId>
 	<artifactId>madura-objects</artifactId>
 	<packaging>jar</packaging>
-	<version>2.2.2-SNAPSHOT</version>
+	<version>2.2.2</version>
 	<name>MaduraObjects</name>
 	<url>www.madurasoftware.com/home/madura-objects</url>
 	<description>This is essentially a JAXB/XJC plugin that adds automatic validation to the generated Java classes. 
@@ -40,9 +40,9 @@ But to any Java code the objects still look like ordinary Java beans. The surrou
 		</developer>
 	</developers>
   <scm>
-  	<url>https://github.com/RogerParkinson/MaduraObjects/trunk/</url>
-  	<connection>scm:svn:https://github.com/RogerParkinson/MaduraObjects/trunk/</connection>
-  	<developerConnection>scm:svn:https://github.com/RogerParkinson/MaduraObjects/trunk/</developerConnection>
+  	<url>https://github.com/RogerParkinson/MaduraObjects/tags/madura-objects-2.2.2</url>
+  	<connection>scm:svn:https://github.com/RogerParkinson/MaduraObjects/tags/madura-objects-2.2.2</connection>
+  	<developerConnection>scm:svn:https://github.com/RogerParkinson/MaduraObjects/tags/madura-objects-2.2.2</developerConnection>
   </scm>
   <issueManagement>
   	<system>GitHub</system>
