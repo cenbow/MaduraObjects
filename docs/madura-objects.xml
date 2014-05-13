@@ -878,6 +878,12 @@ public class NewValidation implements FieldValidator<NewValidation>
 		<table width="12cm">
 			<tw>12cm</tw>
 		<tr>
+			<th>2.2.3</th>
+		</tr>
+        <tr>
+            <td>Deprecated the unbind method.</td>
+        </tr>
+		<tr>
 			<th>2.2.2</th>
 		</tr>
         <tr>
