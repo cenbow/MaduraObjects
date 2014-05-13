@@ -19,6 +19,7 @@ public interface ValidationSessionHolder {
 
 	public abstract void bind(Object context);
 
+	@Deprecated
 	public abstract void unbind(Object context);
 
 	public abstract void close();
