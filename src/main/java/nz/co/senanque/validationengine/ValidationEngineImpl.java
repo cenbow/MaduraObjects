@@ -56,8 +56,6 @@ public final class ValidationEngineImpl implements ValidationEngine,
     private transient List<Plugin> m_plugins = new ArrayList<Plugin>();
     private transient String m_identifier="not set";
 
-	private MessageSourceAccessor m_messageSourceAccessor;
-
     public Map<ValidationObject, ProxyObject> add(final ListeningArray<ValidationObject> array, final ValidationObject value,
             final ValidationSession session) throws ValidationException
     {
@@ -229,7 +227,8 @@ public final class ValidationEngineImpl implements ValidationEngine,
             if (!found)
             {
                 String labelName = fieldMetadata.getLabelName();
-                String message = m_messageSourceAccessor.getMessage(
+        		MessageSourceAccessor messageSourceAccessor = new MessageSourceAccessor(m_messageSource);
+                String message = messageSourceAccessor.getMessage(
                         "nz.co.senanque.validationengine.choicelist",
                         new Object[]
                         { labelName, value }, "Failed choicelist validation.");
@@ -241,7 +240,6 @@ public final class ValidationEngineImpl implements ValidationEngine,
     public void setMessageSource(MessageSource arg0)
     {
         m_messageSource = arg0;
-        m_messageSourceAccessor = new MessageSourceAccessor(arg0);
     }
 
     public ClassMetadata getClassMetadata(Class<?> clazz)

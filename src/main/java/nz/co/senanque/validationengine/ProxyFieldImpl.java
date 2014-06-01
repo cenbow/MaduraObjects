@@ -15,6 +15,7 @@
  *******************************************************************************/
 package nz.co.senanque.validationengine;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -34,7 +35,7 @@ import org.springframework.context.support.MessageSourceAccessor;
  * @author Roger Parkinson
  * @version $Revision: 1.18 $
  */
-public class ProxyFieldImpl implements ProxyField
+public class ProxyFieldImpl implements ProxyField, Serializable
 {
     protected enum Required {
         TRUE, TEMP, FALSE

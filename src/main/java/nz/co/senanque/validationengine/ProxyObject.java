@@ -15,6 +15,7 @@
  *******************************************************************************/
 package nz.co.senanque.validationengine;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ import java.util.Map;
  * @author Roger Parkinson
  * @version $Revision: 1.10 $
  */
-public class ProxyObject
+public class ProxyObject implements Serializable
 {
 
     private final transient ValidationObject m_object;

@@ -15,11 +15,13 @@
  *******************************************************************************/
 package nz.co.senanque.validationengine;
 
+import java.io.Serializable;
+
 /**
  * @author Roger Parkinson
  *
  */
-public class ValidationSessionHolderImpl implements ValidationSessionHolder {
+public class ValidationSessionHolderImpl implements ValidationSessionHolder, Serializable {
 	
 	private final ValidationEngine m_validationEngine;
 	private ValidationSession m_validationSession;

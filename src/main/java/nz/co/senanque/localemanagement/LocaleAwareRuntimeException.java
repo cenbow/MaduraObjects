@@ -15,6 +15,7 @@
  *******************************************************************************/
 package nz.co.senanque.localemanagement;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.support.MessageSourceAccessor;
 
 /**
@@ -36,9 +37,10 @@ public class LocaleAwareRuntimeException extends RuntimeException
     /**
      * @param message
      */
-    public LocaleAwareRuntimeException(String message, Object[] args, MessageSourceAccessor messageSourceAccessor)
+    public LocaleAwareRuntimeException(String message, Object[] args, MessageSource messageSource)
     {
         super(message);
+		MessageSourceAccessor messageSourceAccessor = new MessageSourceAccessor(messageSource);
         m_localisedMessage = messageSourceAccessor.getMessage(message,args);
     }
 
@@ -55,9 +57,10 @@ public class LocaleAwareRuntimeException extends RuntimeException
      * @param message
      * @param cause
      */
-    public LocaleAwareRuntimeException(String message, Object[] args, Throwable cause, MessageSourceAccessor messageSourceAccessor)
+    public LocaleAwareRuntimeException(String message, Object[] args, Throwable cause, MessageSource messageSource)
     {
         super(message, cause);
+		MessageSourceAccessor messageSourceAccessor = new MessageSourceAccessor(messageSource);
         m_localisedMessage = messageSourceAccessor.getMessage(message,args);
     }
     

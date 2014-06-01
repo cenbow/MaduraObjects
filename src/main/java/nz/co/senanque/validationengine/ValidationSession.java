@@ -15,6 +15,7 @@
  *******************************************************************************/
 package nz.co.senanque.validationengine;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
@@ -28,9 +29,11 @@ import java.util.Map;
  * @author Roger Parkinson
  * @version $Revision: 1.15 $
  */
-public class ValidationSession
+public class ValidationSession implements Serializable
 {
-    private final transient ValidationEngine m_validationEngine;
+	private static final long serialVersionUID = 1L;
+
+	private final transient ValidationEngine m_validationEngine;
 
     private final transient Map<ValidationObject, ProxyObject> m_boundMap = new IdentityHashMap<ValidationObject, ProxyObject>();
     private transient boolean m_enabled = true;

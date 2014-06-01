@@ -67,7 +67,7 @@ public class Binder
                 .getClassMetadata(clazz);
         if (classMetadata == null)
         {
-            throw new LocaleAwareRuntimeException("nz.co.senanque.validationengine.class.not.recognised",new Object[]{clazz.getName()},messageSourceAccessor);
+            throw new LocaleAwareRuntimeException("nz.co.senanque.validationengine.class.not.recognised",new Object[]{clazz.getName()},m_validationEngine.getMessageSource());
         }
         object.setValidationSession(session);
         final ProxyObject proxyObject = new ProxyObject(object, parent, index,session);

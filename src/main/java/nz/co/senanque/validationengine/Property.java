@@ -15,13 +15,14 @@
  *******************************************************************************/
 package nz.co.senanque.validationengine;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 
 /**
  * @author Roger Parkinson
  *
  */
-public class Property {
+public class Property implements Serializable {
 
 	private final String m_fieldName;
 	private final Method m_getter;
