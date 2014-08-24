@@ -17,6 +17,9 @@ package nz.co.senanque.validationengine;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import nz.co.senanque.validationengine.choicelists.ChoiceBase;
@@ -58,7 +61,7 @@ public class FieldMetadata implements Serializable
 	private final ProxyFieldImpl m_proxyField;
 
     private final transient PropertyMetadataImpl m_propertyMetadata;
-
+    
     public FieldMetadata(final ProxyFieldImpl fieldProxyObject,
             final PropertyMetadataImpl propertyMetadata)
     {
@@ -121,6 +124,10 @@ public class FieldMetadata implements Serializable
                 : m_proxyField.getChoiceList();
 
     }
+    /**
+     * never called?
+     * @param newValue
+     */
     public void setValue(Object newValue)
     {
     	if (NOT_KNOWN.equals(newValue))
@@ -168,5 +175,5 @@ public class FieldMetadata implements Serializable
 	public int getMaxLength() {
 		return m_propertyMetadata.getMaxLength();
 	}
-	
+
 }

@@ -172,6 +172,7 @@ public final class ValidationEngineImpl implements ValidationEngine,
         else
         {
             Object oldValue = proxyField.getValue();
+            List<History> oldHistory = proxyField.getHistory();
             if (proxyField.getChoiceList() != null && oldValue != null)
             {
                 for (Plugin plugin: getPlugins())
@@ -198,6 +199,7 @@ public final class ValidationEngineImpl implements ValidationEngine,
             else
             {
                 proxyField.reset();
+                proxyField.setHistory(oldHistory);
             }
             for (Plugin plugin: getPlugins())
             {

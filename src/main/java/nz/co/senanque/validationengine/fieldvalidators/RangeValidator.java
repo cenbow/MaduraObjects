@@ -57,7 +57,7 @@ public class RangeValidator implements FieldValidator<Range>
         m_minInclusiveMessage = annotation.minInclusiveMessage();
         m_propertyMetadata = propertyMetadata;
     }
-    public void init(RangeDTO annotation, PropertyMetadata propertyMetadata)
+    public void initTest(RangeDTO annotation, PropertyMetadata propertyMetadata)
     {
         m_maxExclusive = getValue(annotation.maxExclusive());
         m_minExclusive = getValue(annotation.minExclusive());

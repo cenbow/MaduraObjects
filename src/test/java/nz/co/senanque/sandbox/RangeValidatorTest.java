@@ -52,7 +52,7 @@ public class RangeValidatorTest
         final PropertyMetadataMock propertyMetadata = new PropertyMetadataMock(new MessageSourceAccessor(m_messageSource));
         propertyMetadata.setClass(Integer.class);
 
-        rangeValidator.init(rangeDTO, propertyMetadata);
+        rangeValidator.initTest(rangeDTO, propertyMetadata);
         
         rangeValidator.validate(Integer.valueOf(90));
         boolean exception = false;
@@ -78,7 +78,7 @@ public class RangeValidatorTest
         rangeDTO = new RangeDTO();
         rangeDTO.setMaxExclusive("100");
         rangeDTO.setMinExclusive("10");
-        rangeValidator.init(rangeDTO, propertyMetadata);
+        rangeValidator.initTest(rangeDTO, propertyMetadata);
         rangeValidator.validate(Long.valueOf(99));
         exception = false;
         try
@@ -93,7 +93,7 @@ public class RangeValidatorTest
         rangeDTO = new RangeDTO();
         rangeDTO.setMaxExclusive("2009-11-01");
         rangeDTO.setMinExclusive("2009-10-01");
-        rangeValidator.init(rangeDTO, propertyMetadata);
+        rangeValidator.initTest(rangeDTO, propertyMetadata);
         rangeValidator.validate(java.sql.Date.valueOf("2009-10-02"));
         exception = false;
         try

@@ -19,11 +19,15 @@ import static org.junit.Assert.assertEquals;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 import nz.co.senanque.validationengine.annotations.Email;
 import nz.co.senanque.validationengine.annotations.Length;
+import nz.co.senanque.validationengine.annotations.Range;
 import nz.co.senanque.validationengine.fieldvalidators.EmailValidator;
 import nz.co.senanque.validationengine.fieldvalidators.LengthValidator;
+import nz.co.senanque.validationengine.fieldvalidators.RangeValidator;
 
 import org.junit.Test;
 
@@ -38,18 +42,28 @@ public class AnnotationsTest
 	public void testLength() {
 		checkAnnotation(LengthValidator.class, Length.class);
 	}
+	@Test
+	public void testRange() {
+		checkAnnotation(RangeValidator.class, Range.class);
+	}
 	
 	private void checkAnnotation(Class<?> class_, Class<?> annotation) {
         Method[] methods = class_.getMethods();
-        for (Method method: methods)
-        {
-            if (method.getName().equals("init"))
-            {
-                final Class<Annotation> p = (Class<Annotation>)method.getParameterTypes()[0];
-                assertEquals(annotation,p);
-                break;
-            }
-        }		
+        Type[] types = class_.getGenericInterfaces();
+        ParameterizedType t0 = (ParameterizedType)types[0];
+        Type a = t0.getActualTypeArguments()[0];
+        assertEquals(annotation,a);
+//        Class<?>[] interfaces = class_.getInterfaces();
+//        Class<?> interface_ = interfaces[0];
+//        for (Method method: methods)
+//        {
+//            if (method.getName().equals("init"))
+//            {
+//                final Class<? extends Annotation> p = (Class<? extends Annotation>)method.getParameterTypes()[0];
+//                assertEquals(annotation,p);
+//                break;
+//            }
+//        }		
 	}
 
 }

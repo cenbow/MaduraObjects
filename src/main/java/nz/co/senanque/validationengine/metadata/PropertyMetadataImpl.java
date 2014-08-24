@@ -19,15 +19,17 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
+import java.util.regex.Pattern;
 
 import nz.co.senanque.validationengine.Property;
 import nz.co.senanque.validationengine.ValidationUtils;
 import nz.co.senanque.validationengine.choicelists.Choice;
 import nz.co.senanque.validationengine.choicelists.ChoiceBase;
 import nz.co.senanque.validationengine.fieldvalidators.FieldValidator;
-import nz.co.senanque.validationengine.fieldvalidators.LengthValidator;
 
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.util.StringUtils;
 
 /**
  * Describes the static metadata for a field and also implements validation.
@@ -47,15 +49,15 @@ public class PropertyMetadataImpl implements PropertyMetadata {
     private transient boolean m_inactive;
     private transient boolean m_readOnly;
     private transient boolean m_required;
-//	private String m_regex;
+	private String m_regex;
 	private transient String m_labelName;
-//	private String m_minValue;
-//	private String m_maxValue;
+	private String m_minValue;
+	private String m_maxValue;
     private transient String m_description;
     private transient String m_permission;
 //	private String m_bean;
 //	private String m_param;
-//	private Pattern m_regexPattern;
+	private Pattern m_regexPattern;
 	private transient String m_mapName;
 	private transient List<ChoiceBase> m_choiceList;
     private final transient List<FieldValidator<Annotation>> m_constraintValidators = new ArrayList<FieldValidator<Annotation>>();
@@ -65,6 +67,9 @@ public class PropertyMetadataImpl implements PropertyMetadata {
 	private boolean m_unknown;
 	private boolean m_identifier;
 	private int m_maxLength=-1;
+	private transient Integer m_entries;
+	private transient Long m_expire;
+	private transient boolean m_hasHistory;
 	
 	protected PropertyMetadataImpl(Property property, MessageSourceAccessor messageSourceAccessor)
 	{
@@ -93,18 +98,18 @@ public class PropertyMetadataImpl implements PropertyMetadata {
 	public void setLabelName(final String name) {
 		m_labelName = name;
 	}
-//	public String getMinValue() {
-//		return m_minValue;
-//	}
-//	public void setMinValue(String value) {
-//		m_minValue = value;
-//	}
-//	public String getMaxValue() {
-//		return m_maxValue;
-//	}
-//	public void setMaxValue(String value) {
-//		m_maxValue = value;
-//	}
+	public String getMinValue() {
+		return m_minValue;
+	}
+	public void setMinValue(String value) {
+		m_minValue = value;
+	}
+	public String getMaxValue() {
+		return m_maxValue;
+	}
+	public void setMaxValue(String value) {
+		m_maxValue = value;
+	}
 	public String getDescription() {
         return m_messageSourceAccessor.getMessage(
                 m_description, new Object[]{}, 
@@ -125,16 +130,16 @@ public class PropertyMetadataImpl implements PropertyMetadata {
 //	public void setParam(String param) {
 //		m_param = param;
 //	}
-//	public String getRegex() {
-//		return m_regex;
-//	}
-//	public void setRegex(String regex) {
-//		m_regex = regex;
-//		m_regexPattern = java.util.regex.Pattern.compile(regex);
-//	}
-//	public Pattern getRegexPattern() {
-//		return m_regexPattern;
-//	}
+	public String getRegex() {
+		return m_regex;
+	}
+	public void setRegex(String regex) {
+		m_regex = regex;
+		m_regexPattern = java.util.regex.Pattern.compile(regex);
+	}
+	public Pattern getRegexPattern() {
+		return m_regexPattern;
+	}
 	public void setMapField(String name) {
 		m_mapName = name;
 	}
@@ -333,6 +338,50 @@ public class PropertyMetadataImpl implements PropertyMetadata {
 
 	public void setMaxLength(String maxLength) {
 		m_maxLength = Integer.parseInt(maxLength);
+	}
+
+	public void setHistory(String expire, String entries) {
+		if (StringUtils.hasText(entries) && !entries.equals("none")) {
+			try {
+				m_entries = Integer.valueOf(entries);
+			} catch (NumberFormatException e) {
+				throw new RuntimeException("Unidentified history entries: "+entries);
+			}
+			m_hasHistory = true;
+		}
+		if (StringUtils.hasText(expire) && !expire.equals("none")) {
+			StringTokenizer st = new StringTokenizer(expire);
+			int t;
+			try {
+				t = Integer.valueOf(st.nextToken());
+			} catch (NumberFormatException e) {
+				throw new RuntimeException("Unidentified history expire: "+expire);
+			}
+			if (st.hasMoreTokens()) {
+				String modifier = st.nextToken();
+				for (TimeModifier tm: TimeModifier.getTimeModifier()) {
+					if (modifier.equalsIgnoreCase(tm.getType())) {
+						t *= tm.getDelta();
+						m_expire = new Long(t);
+						m_hasHistory = true;
+						return;
+					}
+				}
+				throw new RuntimeException("Unidentified history expire: "+expire);
+			}
+		}
+	}
+
+	public Integer getEntries() {
+		return m_entries;
+	}
+
+	public Long getExpire() {
+		return m_expire;
+	}
+
+	public boolean hasHistory() {
+		return m_hasHistory;
 	}
 
 }

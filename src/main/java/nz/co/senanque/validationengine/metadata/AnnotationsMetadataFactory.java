@@ -18,6 +18,8 @@ package nz.co.senanque.validationengine.metadata;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -33,12 +35,15 @@ import nz.co.senanque.validationengine.ValidationObject;
 import nz.co.senanque.validationengine.ValidationUtils;
 import nz.co.senanque.validationengine.annotations.ChoiceList;
 import nz.co.senanque.validationengine.annotations.Description;
+import nz.co.senanque.validationengine.annotations.History;
 import nz.co.senanque.validationengine.annotations.Inactive;
 import nz.co.senanque.validationengine.annotations.Label;
 import nz.co.senanque.validationengine.annotations.Length;
 import nz.co.senanque.validationengine.annotations.MapField;
+import nz.co.senanque.validationengine.annotations.Range;
 import nz.co.senanque.validationengine.annotations.ReadOnly;
 import nz.co.senanque.validationengine.annotations.ReadPermission;
+import nz.co.senanque.validationengine.annotations.Regex;
 import nz.co.senanque.validationengine.annotations.Required;
 import nz.co.senanque.validationengine.annotations.Secret;
 import nz.co.senanque.validationengine.annotations.Unknown;
@@ -89,7 +94,7 @@ public class AnnotationsMetadataFactory implements FactoryBean<EngineMetadata>, 
 	    
 	    createChoicesMap();
 	    
-	    final Map<Class<Annotation>, Class<? extends FieldValidator<Annotation>>> validatorMap = getValidatorMap();
+	    final Map<Class<? extends Annotation>, Class<? extends FieldValidator<Annotation>>> validatorMap = getValidatorMap();
 	    final Map<Class<?>,ClassMetadata> classMap = new HashMap<Class<?>,ClassMetadata>();
 	    final MessageSourceAccessor messageSourceAccessor = new MessageSourceAccessor(getMessageSource());
 
@@ -139,26 +144,31 @@ public class AnnotationsMetadataFactory implements FactoryBean<EngineMetadata>, 
                         fieldMetadata.setRequired(true);
                         fieldNeeded = true;
                     }
-//						if (fieldAnnotation instanceof Range)
-//						{
-//							fieldMetadata.setMinValue(((Range)fieldAnnotation).minValue());
-//							fieldMetadata.setMaxValue(((Range)fieldAnnotation).maxValue());
-//							fieldNeeded = true;
-//						}
+					if (fieldAnnotation instanceof Range)
+					{
+						fieldMetadata.setMinValue(((Range)fieldAnnotation).minInclusive());
+						fieldMetadata.setMaxValue(((Range)fieldAnnotation).maxInclusive());
+						fieldNeeded = true;
+					}
 					if (fieldAnnotation instanceof Description)
 					{
 						fieldMetadata.setDescription(((Description)fieldAnnotation).name());
+						fieldNeeded = true;
+					}
+					if (fieldAnnotation instanceof History)
+					{
+						fieldMetadata.setHistory(((History)fieldAnnotation).expire(),((History)fieldAnnotation).entries());
 						fieldNeeded = true;
 					}
 					if (fieldAnnotation instanceof Id)
 					{
 						fieldMetadata.setIdentifier(true);
 					}
-//						if (fieldAnnotation instanceof Regex)
-//						{
-//							fieldMetadata.setRegex(((Regex)fieldAnnotation).regex());
-//							fieldNeeded = true;
-//						}
+					if (fieldAnnotation instanceof Regex)
+					{
+						fieldMetadata.setRegex(((Regex)fieldAnnotation).pattern());
+						fieldNeeded = true;
+					}
 //						if (fieldAnnotation instanceof BeanValidator)
 //						{
 //							fieldMetadata.setBean(((BeanValidator)fieldAnnotation).bean());
@@ -298,23 +308,29 @@ public class AnnotationsMetadataFactory implements FactoryBean<EngineMetadata>, 
         return m_choicesMap;
     }
 
-    public Map<Class<Annotation>, Class<? extends FieldValidator<Annotation>>> getValidatorMap()
+    public Map<Class<? extends Annotation>, Class<? extends FieldValidator<Annotation>>> getValidatorMap()
     {
-        Map<Class<Annotation>,Class<? extends FieldValidator<Annotation>>> ret = new HashMap<Class<Annotation>,Class<? extends FieldValidator<Annotation>>>();
+        Map<Class<? extends Annotation>,Class<? extends FieldValidator<Annotation>>> ret = new HashMap<Class<? extends Annotation>,Class<? extends FieldValidator<Annotation>>>();
         try
         {
             for (Class<? extends FieldValidator<Annotation>> class_:Validators.s_validators)
             {
-                Method[] methods = class_.getMethods();
-                for (Method method: methods)
-                {
-                    if (method.getName().equals("init"))
-                    {
-                        final Class<Annotation> p = (Class<Annotation>)method.getParameterTypes()[0];
-                        ret.put(p,class_);
-                        break;
-                    }
-                }
+                Type[] types = class_.getGenericInterfaces();
+                ParameterizedType t0 = (ParameterizedType)types[0];
+                @SuppressWarnings("unchecked")
+				Class<? extends Annotation> p = (Class<? extends Annotation>)t0.getActualTypeArguments()[0];
+                ret.put(p,class_);
+
+//                Method[] methods = class_.getMethods();
+//                for (Method method: methods)
+//                {
+//                    if (method.getName().equals("init"))
+//                    {
+//                        final Class<? extends Annotation> p = (Class<? extends Annotation>)method.getParameterTypes()[0];
+//                        ret.put(p,class_);
+//                        break;
+//                    }
+//                }
             }
         }
         catch (Exception e)
@@ -326,16 +342,22 @@ public class AnnotationsMetadataFactory implements FactoryBean<EngineMetadata>, 
         {
             for (Class<? extends FieldValidator<Annotation>> class_: m_fieldValidators)
             {
-                Method[] methods = class_.getMethods();
-                for (Method method: methods)
-                {
-                    if (method.getName().equals("init"))
-                    {
-                        final Class<Annotation> p = (Class<Annotation>)method.getParameterTypes()[0];
-                        ret.put(p,class_);
-                        break;
-                    }
-                }
+                Type[] types = class_.getGenericInterfaces();
+                ParameterizedType t0 = (ParameterizedType)types[0];
+                @SuppressWarnings("unchecked")
+				Class<? extends Annotation> p = (Class<? extends Annotation>)t0.getActualTypeArguments()[0];
+                ret.put(p,class_);
+
+//                Method[] methods = class_.getMethods();
+//                for (Method method: methods)
+//                {
+//                    if (method.getName().equals("init"))
+//                    {
+//                        final Class<Annotation> p = (Class<Annotation>)method.getParameterTypes()[0];
+//                        ret.put(p,class_);
+//                        break;
+//                    }
+//                }
             }
         }
         return ret;

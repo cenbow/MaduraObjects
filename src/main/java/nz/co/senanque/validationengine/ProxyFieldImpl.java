@@ -18,6 +18,7 @@ package nz.co.senanque.validationengine;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -59,6 +60,7 @@ public class ProxyFieldImpl implements ProxyField, Serializable
 	private final transient MessageSourceAccessor m_messageSourceAccessor;
 	private boolean m_notKnown;
 	private boolean m_lastUnknown;
+    private final transient List<History> m_history = new ArrayList<>();
 
     protected ProxyFieldImpl(final String fieldName, final ProxyObject proxyObject,
             final ProxyField parent, final PropertyMetadataImpl fieldMetadata, MessageSourceAccessor messageSourceAccessor)
@@ -196,6 +198,8 @@ public class ProxyFieldImpl implements ProxyField, Serializable
         useCurrentValue(true);
         setUnknown(false);
         m_notKnown = false;
+        
+        addHistory(newValue);
     }
     
     public ObjectMetadata getObjectMetadata()
@@ -435,5 +439,42 @@ public class ProxyFieldImpl implements ProxyField, Serializable
 	public Method getGetter() {
 		return m_propertyMetadata.getGetMethod();
 	}
+
+	public List<History> getHistory() {
+		List<History> history = new ArrayList<>();
+		history.addAll(m_history);
+		return history;
+	}
+
+	public void setHistory(List<History> history) {
+		if (m_propertyMetadata.hasHistory()) {
+			m_history.clear();
+			m_history.addAll(history);
+		}
+	}
+    protected void addHistory(Object newValue) {
+    	if (!m_propertyMetadata.hasHistory()) {
+    		return;
+    	}
+    	Long expire = m_propertyMetadata.getExpire();
+    	long now = new Date().getTime();
+    	if (expire == null) {
+    		m_history.add(new History(newValue, null));
+    	} else {
+    		m_history.add(new History(newValue, new Long(expire + now)));
+    	}
+    	Integer entries = m_propertyMetadata.getEntries();
+    	if (entries != null) {
+    		while (m_history.size() > entries) {
+    			m_history.remove(0);
+    		}
+    	}
+    	if (expire != null) {
+    		while (m_history.size() > 0 && m_history.get(0).getExpiry() < now) {
+    			m_history.remove(0);
+    		}
+    	}
+    }
+    
 
 }

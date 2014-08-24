@@ -142,6 +142,22 @@ limitations under the License.
     				</restriction>
     			</simpleType>
     		</element>
+    		<element name="amountWithHistory">
+    			<xsd:annotation>
+    				<xsd:appinfo>
+    					<annox:annotate>
+							<md:Label labelName="AmountWithHistory"/>
+							<md:Digits integerDigits="8" fractionalDigits="2"/>
+							<md:Range minInclusive="5" maxInclusive="1000"/>
+							<md:History entries="3"/>
+						</annox:annotate>
+    				</xsd:appinfo>
+    			</xsd:annotation>
+    			<simpleType>
+    				<restriction base="double">
+    				</restriction>
+    			</simpleType>
+    		</element>
     		<element name="count" type="long">
     			<xsd:annotation>
     				<xsd:appinfo>

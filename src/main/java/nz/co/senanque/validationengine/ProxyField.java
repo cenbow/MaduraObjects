@@ -92,5 +92,8 @@ public interface ProxyField
 	public abstract boolean isUnknown();
 
 	public abstract Method getGetter();
+
+	public abstract List<History> getHistory();
+	public abstract void setHistory(List<History> history);
 	
 }
