@@ -41,8 +41,8 @@ But to any Java code the objects still look like ordinary Java beans. The surrou
 	</developers>
   <scm>
   	<url>https://github.com/RogerParkinson/MaduraObjects/trunk/</url>
-  	<connection>scm:svn:https://github.com/RogerParkinson/MaduraObjects/trunk/</connection>
-  	<developerConnection>scm:svn:https://github.com/RogerParkinson/MaduraObjects/trunk/</developerConnection>
+  	<connection>scm:git:ssh://git@github.com:RogerParkinson/MaduraObjects.git</connection>
+  	<developerConnection>scm:git:https://github.com/RogerParkinson/MaduraObjects.git</developerConnection>
   </scm>
   <issueManagement>
   	<system>GitHub</system>
