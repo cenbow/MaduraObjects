@@ -79,13 +79,11 @@ limitations under the License.
 	
 	<bean id="validationEngine" class="nz.co.senanque.validationengine.ValidationEngineImpl">
 		<property name="metadata" ref="metadata"/>
-		<!-- 
 		<property name="plugins">
 			<list>
-				<ref bean="MaduraRulesPlugin"/>
+				<bean class="nz.co.senanque.sandbox.TestPlugin"/>
 			</list>
 		</property>
-		 -->
 	</bean>
 	<bean id="metadata" class="nz.co.senanque.validationengine.metadata.AnnotationsMetadataFactory">
 		<property name="package" value="nz.co.senanque.madura.sandbox"/>

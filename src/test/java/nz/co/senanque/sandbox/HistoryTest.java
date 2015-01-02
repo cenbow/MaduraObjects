@@ -99,4 +99,33 @@ public class HistoryTest
         assertTrue(((Double)history.get(2).getValue()).equals(40.00D));
         validationSession.close();
     }
+    /**
+     * Tests for what happens when there is an error throw from the plugin
+     * ie that history is properly cleared up.
+     * @throws Exception
+     */
+    @Test
+    public void test3() throws Exception
+    {  
+        ValidationSession validationSession = m_validationEngine.createSession();
+
+        // create a customer
+        Customer customer = new Customer();
+        validationSession.bind(customer);
+        customer.setAmountWithHistory(10.00);
+        customer.setAmountWithHistory(20.00);
+        boolean exception = false;
+        try {
+			customer.setAmountWithHistory(530.00);// this ought to fail
+		} catch (Exception e) {
+			exception = true;
+		}
+        assertTrue(exception);
+        List<History> history = customer.getMetadata().getProxyField(Customer.AMOUNTWITHHISTORY).getHistory();
+        assertEquals(2,history.size());
+        assertEquals(10.00D,((Double)history.get(0).getValue()), 0.1D);
+        assertEquals(20.00D,((Double)history.get(1).getValue()), 0.1D);
+        assertEquals(20.00D, customer.getAmountWithHistory(), 0.1D);
+        validationSession.close();
+    }
 }

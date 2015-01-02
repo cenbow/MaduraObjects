@@ -95,5 +95,6 @@ public interface ProxyField
 
 	public abstract List<History> getHistory();
 	public abstract void setHistory(List<History> history);
+	public abstract boolean expire();
 	
 }

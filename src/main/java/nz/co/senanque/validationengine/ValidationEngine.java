@@ -47,4 +47,5 @@ public interface ValidationEngine
     void unbindAll(ValidationSession session, Map<ValidationObject, ProxyObject> boundMap);
     String getStats(ValidationSession session);
     String getIdentifier();
+	long getCurrentTime();
 }

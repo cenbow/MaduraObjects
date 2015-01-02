@@ -534,6 +534,7 @@ public class CustomerJPAImpl implements CustomerDAO
 			This is usually a relationship to another object which might become circular or perhaps
 			because there is a lazy database fetch. Naturally any rules across that relationship
 			cannot be honoured.</td></tr>
+			<tr><td>@History</td><td></td><td>Retains history of settings. See <sectionLink t="History"/></td></tr>
 			<!-- 
 			<tr><td>@MapClass</td><td>name</td><td>Placeholder. May be used by future plugins.</td></tr>
 			<tr><td>@MapField</td><td>name</td><td>Placeholder. May be used by future plugins.</td></tr>
@@ -598,6 +599,29 @@ public class CustomerJPAImpl implements CustomerDAO
 		is the value that is ultimately set in the field.</p>
 		<p>By implementing the appropriate plugin you can adjust the available values in any choice list dynamically. This applies to Enum choice lists as well.</p>
 		<p>The choice list contents can be delivered in other ways. See <sectionLink t="Extending the Choice Lists"/></p>
+		</h2>
+		<h2 t="History">
+		<p>The engine can retain the last few entries for a field as history.</p>
+		<code><![CDATA[
+<md:History entries="3"/>
+		]]></code> 
+		<p>This will retain the last 3 successful entries. Failed entries, such as those that failed
+		validation, are never retained. You can also specify this by time rather than number:</p>
+		<code><![CDATA[
+<md:History expires="3 seconds"/>
+		]]></code>
+		<p>In this case any entry older than 3 seconds will not be used, and at some stage it will be
+		garbage collected. If you leave off the 'seconds' qualifier it will use 3 milliseconds. Alternatives
+		to 'seconds' are minutes, hours, days, weeks.</p>
+		<p>To fetch the history you need to use a bit of API:</p> 
+		<code><![CDATA[
+List<History> history = customer.getMetadata().getProxyField(Customer.AMOUNTWITHHISTORY).getHistory();
+		]]></code>
+		<p>That gives you the currently available history. If the field has not been annotated to hold
+		history it will return an empty list.</p>
+		<p>History can be used to figure things like moving averages in real time where a field is
+		regularly updated. The history is only held in the current session. It will not be stored
+		if you serialise the object to and back from a database or XML.</p>
 		</h2>
 		</h1>
 		<h1 t="Validation Plugins">
@@ -878,8 +902,17 @@ public class NewValidation implements FieldValidator<NewValidation>
 		<table width="12cm">
 			<tw>12cm</tw>
 		<tr>
-			<th>2.2.3</th>
+			<th>2.3.3</th>
 		</tr>
+        <tr>
+            <td>Various changes to support git rather than svn.</td>
+        </tr>
+        <tr>
+            <td>Added history to variables.</td>
+        </tr>
+        <tr>
+            <td>Reinstated Range and Regex and their tests.</td>
+        </tr>
         <tr>
             <td>Deprecated the unbind method.</td>
         </tr>

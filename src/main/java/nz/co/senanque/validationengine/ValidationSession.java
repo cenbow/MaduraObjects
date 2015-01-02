@@ -38,6 +38,7 @@ public class ValidationSession implements Serializable
     private final transient Map<ValidationObject, ProxyObject> m_boundMap = new IdentityHashMap<ValidationObject, ProxyObject>();
     private transient boolean m_enabled = true;
     private Map<ValidationObject, ProxyObject> m_provisionalObjects;
+    private transient List<ProxyField> m_history = new ArrayList<>();
 
     private final Locale m_locale;
 
@@ -80,13 +81,16 @@ public class ValidationSession implements Serializable
     {
         if (m_enabled)
         {
+            for (ProxyField proxyField:m_history) {
+            	proxyField.expire();
+            }
             m_validationEngine.set(object, fieldName, newValue, currentValue, this);
         }
     }
 
     /**
      * The clean method ensures that the object and its attached objects are up to date
-     * ie that any mapping is updated. This means it the getters on the object are safe to use
+     * ie that any mapping is updated. This means the getters on the object are safe to use
      * @param object
      */
     public void clean(final ValidationObject object)
@@ -94,6 +98,9 @@ public class ValidationSession implements Serializable
         if (m_enabled)
         {
             m_validationEngine.clean(object);
+            for (ProxyField proxyField:m_history) {
+            	proxyField.expire();
+            }
         }
     }
 
@@ -161,6 +168,7 @@ public class ValidationSession implements Serializable
         if (m_enabled)
         {
         	m_validationEngine.unbind(this,proxyField,currentValue,m_boundMap);
+        	m_history.remove(proxyField);
         }
         
     }
@@ -233,6 +241,14 @@ public class ValidationSession implements Serializable
     	return ret.toString();
 	}
 
-
-
+	/**
+	 * We detected a field keeping an expiry history so record it here.
+	 * 
+	 * @param m_proxyObject
+	 * @param proxyField
+	 */
+	public void addExpiry(ProxyField proxyField) {
+		m_history.add(proxyField);		
+	}
+	
 }

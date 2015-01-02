@@ -17,6 +17,7 @@ package nz.co.senanque.validationengine;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -106,15 +107,6 @@ public final class ValidationEngineImpl implements ValidationEngine,
         }
     	return ret.toString();
     }
-    public boolean clean(final ValidationSession session, final ValidationObject object)
-    {
-        ProxyObject proxyObject = session.getProxyObject(object);
-        for (Plugin plugin: getPlugins())
-        {
-            plugin.clean(session,proxyObject);
-        }
-        return false;
-    }
 
     public void set(final ValidationObject object, final String name, final Object newValue, final Object currentValue, final ValidationSession session)
             throws ValidationException
@@ -199,12 +191,20 @@ public final class ValidationEngineImpl implements ValidationEngine,
             else
             {
                 proxyField.reset();
+            }
+            try {
+				for (Plugin plugin: getPlugins())
+				{
+				    plugin.set(session, proxyField, newValue);
+				}
+			} catch (Exception e) {
                 proxyField.setHistory(oldHistory);
-            }
-            for (Plugin plugin: getPlugins())
-            {
-                plugin.set(session, proxyField, newValue);
-            }
+                for (Plugin plugin: getPlugins())
+                {
+                    plugin.set(session, proxyField, oldValue);
+                }
+                throw e;
+			}
         }
     }
 
@@ -366,5 +366,13 @@ public final class ValidationEngineImpl implements ValidationEngine,
 	}
 	public void setIdentifier(String identifier) {
 		m_identifier = identifier;
+	}
+	/* (non-Javadoc)
+	 * @see nz.co.senanque.validationengine.ValidationEngine#getCurrentTime()
+	 */
+	@Override
+	public long getCurrentTime() {
+		// just return the current ms
+		return new Date().getTime();
 	}
 }

@@ -457,11 +457,12 @@ public class ProxyFieldImpl implements ProxyField, Serializable
     		return;
     	}
     	Long expire = m_propertyMetadata.getExpire();
-    	long now = new Date().getTime();
+    	long now = getCurrentTime();
     	if (expire == null) {
     		m_history.add(new History(newValue, null));
     	} else {
     		m_history.add(new History(newValue, new Long(expire + now)));
+    		m_proxyObject.getSession().addExpiry(this);
     	}
     	Integer entries = m_propertyMetadata.getEntries();
     	if (entries != null) {
@@ -470,11 +471,21 @@ public class ProxyFieldImpl implements ProxyField, Serializable
     		}
     	}
     	if (expire != null) {
-    		while (m_history.size() > 0 && m_history.get(0).getExpiry() < now) {
-    			m_history.remove(0);
-    		}
+    		expire();
     	}
     }
+    public boolean expire() {
+    	long now = getCurrentTime();
+    	boolean ret = false;
+		while (m_history.size() > 0 && m_history.get(0).getExpiry() < now) {
+			m_history.remove(0);
+			ret = true;
+		}
+		return ret;
+    }
     
+    private long getCurrentTime() {
+    	return m_proxyObject.getSession().getValidationEngine().getCurrentTime();
+    }
 
 }
