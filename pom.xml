@@ -389,7 +389,7 @@ But to any Java code the objects still look like ordinary Java beans. The surrou
 			<plugin>
 				<groupId>nz.co.senanque</groupId>
 				<artifactId>maduradocs</artifactId>
-				<version>6.0.5</version>
+				<version>6.1.0</version>
 				<executions>
 					<execution>
 						<goals>
