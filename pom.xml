@@ -138,7 +138,6 @@ But to any Java code the objects still look like ordinary Java beans. The surrou
 					<groupId>commons-logging</groupId>
 				</exclusion>
 			</exclusions>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>cglib</groupId>
