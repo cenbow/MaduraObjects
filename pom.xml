@@ -18,6 +18,7 @@ But to any Java code the objects still look like ordinary Java beans. The surrou
 		<spring.framework.version>3.2.6.RELEASE</spring.framework.version>
 		<jaxb22.version>2.2.4-1</jaxb22.version>
 		<choices.schema>src/main/resources/choices.xsd</choices.schema>
+		<messages.schema>src/main/resources/messages.xsd</messages.schema>
 		<hibernate-version>4.1.4.Final</hibernate-version>
 	</properties>
   <parent>
@@ -322,7 +323,7 @@ But to any Java code the objects still look like ordinary Java beans. The surrou
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
+      			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
 				<version>1.5</version>
@@ -338,6 +339,12 @@ But to any Java code the objects still look like ordinary Java beans. The surrou
 								<artifact>
 									<file>${choices.schema}</file>
 									<type>xsd</type>
+									<classifier>choices</classifier>
+								</artifact>
+								<artifact>
+									<file>${messages.schema}</file>
+									<type>xsd</type>
+									<classifier>messages</classifier>
 								</artifact>
 								<artifact>
 									<file>${pdf}</file>
