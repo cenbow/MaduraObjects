@@ -902,7 +902,7 @@ public class NewValidation implements FieldValidator<NewValidation>
 		<table width="12cm">
 			<tw>12cm</tw>
 		<tr>
-			<th>2.3.3</th>
+			<th>2.2.3</th>
 		</tr>
         <tr>
             <td>Various changes to support git rather than svn.</td>
