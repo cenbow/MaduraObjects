@@ -31,7 +31,7 @@ import org.springframework.context.support.MessageSourceAccessor;
 public class ChoiceListFactoryImpl implements ChoiceListFactory
 {
 
-    private MessageSourceAccessor m_messageSourceAccessor;
+    private transient MessageSourceAccessor m_messageSourceAccessor;
 
 	public ChoiceListFactoryImpl(MessageSourceAccessor messageSourceAccessor) {
 		m_messageSourceAccessor = messageSourceAccessor;

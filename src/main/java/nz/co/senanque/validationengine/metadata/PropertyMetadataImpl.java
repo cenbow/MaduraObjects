@@ -63,7 +63,7 @@ public class PropertyMetadataImpl implements PropertyMetadata {
     private final transient List<FieldValidator<Annotation>> m_constraintValidators = new ArrayList<FieldValidator<Annotation>>();
     private String m_readPermission;
     private transient boolean m_secret;
-	private MessageSourceAccessor m_messageSourceAccessor;
+	private transient MessageSourceAccessor m_messageSourceAccessor;
 	private boolean m_unknown;
 	private boolean m_identifier;
 	private int m_maxLength=-1;
