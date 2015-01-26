@@ -24,7 +24,7 @@ limitations under the License.
 	</xs:element>
 	<xs:complexType name="LocaleType">
 		<xs:sequence>
-			<xs:element name="Entry" type="EntryType" maxOccurs="unbounded"/>
+			<xs:element name="entry" type="EntryType" maxOccurs="unbounded"/>
 		</xs:sequence>
 		<xs:attribute name="name" use="required"/>
 	</xs:complexType>

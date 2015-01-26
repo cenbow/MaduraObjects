@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <MaduraValidator xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="http://oss.sonatype.org/content/repositories/releases/nz/co/senanque/madura-objects/2.2.2/choices-2.2.2.xsd">
+	xsi:noNamespaceSchemaLocation="https://oss.sonatype.org/content/repositories/releases/nz/co/senanque/madura-objects/2.2.4/madura-objects-2.2.4-choices.xsd">
 	<ChoiceList name="customerType">
 		<Choice name="a">A</Choice>
 		<Choice name="b">B</Choice>
