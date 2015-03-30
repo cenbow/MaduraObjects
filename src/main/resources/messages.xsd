@@ -26,7 +26,7 @@ limitations under the License.
 		<xs:sequence>
 			<xs:element name="entry" type="EntryType" maxOccurs="unbounded"/>
 		</xs:sequence>
-		<xs:attribute name="name" use="required"/>
+		<xs:attribute name="name" use="optional"/>
 	</xs:complexType>
 
 	<xs:complexType name="EntryType">
