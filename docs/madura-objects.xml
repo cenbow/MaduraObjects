@@ -88,6 +88,9 @@
 		<h2 t="Advantages">
 		<p>The advantages of all this should be obvious but let's spell them out:</p>
 		<list>
+		<le>The business rules end up below the domain objects rather than implemented above them, which means you do not get them creeping into DAOs and UI layers, 
+		and that means for example, when you need to implement a different UI technology you don't find the old UI is riddled with business rules that need to 
+		be re-implemented.</le>
 		<le>There is no API to learn. It is just ordinary Java. Not quite true, as we shall see, but the API is smaller than JPA. 
 		Almost all the time you are just operating simple Java objects.</le>
 		<le>Serialising to XML and back for web service messages etc is easily handled by standard JAXB. The other main use for this is generating XSL/FO reports.</le>
@@ -96,6 +99,7 @@
 		shouldn't.</le>
 		<le>Simple objects means simple DAOs and simple UI code.</le>
 		</list>
+		<p>This looks like an Anemic Data model but it is not quite. We call this a <emph>Delegating</emph> Anemic Data Model</p>
 		</h2>
 		<h2 t="Examples">
 		<p>This is what a small program looks like that uses these objects:</p>
