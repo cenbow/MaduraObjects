@@ -40,11 +40,11 @@ But to any Java code the objects still look like ordinary Java beans. The surrou
 			</roles>
 		</developer>
 	</developers>
-  <scm>
-  	<url>https://github.com/RogerParkinson/MaduraObjects/</url>
-  	<connection>scm:git:ssh://git@github.com:RogerParkinson/MaduraObjects.git</connection>
-  	<developerConnection>scm:git:https://github.com/RogerParkinson/MaduraObjects.git</developerConnection>
-  </scm>
+	<scm>
+		<connection>scm:git:git@github.com:RogerParkinson/MaduraObjects.git</connection>
+		<url>scm:git:git@github.com:RogerParkinson/MaduraObjects.git</url>
+		<developerConnection>scm:git:git@github.com:RogerParkinson/MaduraObjects.git</developerConnection>
+	</scm>
   <issueManagement>
   	<system>GitHub</system>
   	<url>https://github.com/RogerParkinson/MaduraObjects/issues</url>
@@ -406,9 +406,9 @@ But to any Java code the objects still look like ordinary Java beans. The surrou
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
+				<groupId>org.kuali.maven.plugins</groupId>
 				<artifactId>properties-maven-plugin</artifactId>
-				<version>1.0-alpha-2</version>
+				<version>1.1.9</version>
 				<executions>
 					<execution>
 						<phase>initialize</phase>
@@ -416,9 +416,9 @@ But to any Java code the objects still look like ordinary Java beans. The surrou
 							<goal>read-project-properties</goal>
 						</goals>
 						<configuration>
-							<files>
-								<file>../dev.properties</file>
-							</files>
+							<locations>
+								<location>${HOME}/madura.properties</location>
+							</locations>
 							<quiet>true</quiet>
 						</configuration>
 					</execution>
@@ -447,25 +447,6 @@ But to any Java code the objects still look like ordinary Java beans. The surrou
 				<configuration>
 					<lifecycleMappingMetadata>
 						<pluginExecutions>
-							<pluginExecution>
-								<pluginExecutionFilter>
-									<groupId>org.codehaus.mojo</groupId>
-									<artifactId>
-										properties-maven-plugin
-									</artifactId>
-									<versionRange>
-										[1.0-alpha-2,)
-									</versionRange>
-									<goals>
-										<goal>
-											read-project-properties
-										</goal>
-									</goals>
-								</pluginExecutionFilter>
-								<action>
-									<ignore />
-								</action>
-							</pluginExecution>
 						</pluginExecutions>
 					</lifecycleMappingMetadata>
 				</configuration>
@@ -538,6 +519,27 @@ But to any Java code the objects still look like ordinary Java beans. The surrou
 									</pluginExecutionFilter>
 									<action>
 										<ignore />
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.kuali.maven.plugins
+										</groupId>
+										<artifactId>
+											properties-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.1.9,)
+										</versionRange>
+										<goals>
+											<goal>
+												read-project-properties
+											</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
