@@ -522,6 +522,69 @@ public class CustomerJPAImpl implements CustomerDAO
 		method <courier>createSession()</courier>.</p>
 		<p>As well as these there are various setters that define the package(s) containing the Business Objects, the rules engines to attach to it and the locking behaviour of 
 		the persistence. These are intended to be wired in rather than driven directly from the application.</p>
+		<p>Here is a simple example of setting up a session and binding an object to it:</p>
+		<code><![CDATA[
+ValidationSession validationSession = m_validationEngine.createSession();
+
+// create a customer
+Customer customer = new Customer();
+validationSession.bind(customer);
+Invoice invoice = new Invoice();
+invoice.setAmount(1000);
+// Adding the invoice to the customer will bind the invoice
+// to the validation session.
+customer.getInvoices().add(invoice);
+
+// This wll trigger validation on the changed amount
+invoice.setAmount(2000);
+
+// Removing the invoice from the customer will
+// implicitly unbind it from the validation session.
+customer.getInvoices().remove(invoice);
+
+// closing the validation session implicitly unbinds all the objects
+validationSession.close();
+
+// never do this, ie never reuse unbound objects
+Float amount = invoice.getAmount();
+		]]></code>
+		<p>The example shows creating a session, a customer object and then binding the customer to the session. At that point
+		any validation checks needed on the customer object are performed and you might get an exception if there
+		are invalid field values in the customer. After that the invoice was created and set with an amount. The invoice is
+		not yet bound so no validation checks will happen there. But when it is added to the (bound) customer the invoice
+		is implicitly bound and validation is performed. If any fields on the invoice are changed after that validation will be
+		triggered.</p>
+		<p>When the invoice is removed from the customer it is <emph>unbound</emph> from the session. Various things happen at this point
+		depending on what validation options/configuration has been chosen, but it is important that you do not reuse the object. It
+		will not necessarily have the values in it before it was unbound and it will not necessarily be valid anymore. You should
+		<emph>absoutely definititely never</emph> try to rebind it to a validation session.</p>
+		<p>The example here shows the attached invoice object bound by adding it to a list or set, but the same applies an object directly
+		attached in its own field, for example the address of the customer:</p> 
+		<code><![CDATA[
+ValidationSession validationSession = m_validationEngine.createSession();
+
+// create a customer
+Customer customer = new Customer();
+validationSession.bind(customer);
+Address address = new Address();
+address.setCity("Auckland");
+// Adding the address to the customer will bind the invoice
+// to the validation session.
+customer.setAddress(address);
+
+// This wll trigger validation on the changed value
+invoice.setCity("Wellington");
+      
+// Removing the address from the customer will
+// implicitly unbind it from the validation session.
+customer.setAddress(null);
+
+// closing the validation session implicitly unbinds all the objects
+validationSession.close();
+
+// never do this, ie never reuse unbound objects
+String city = address.getCity();
+		]]></code>
 		</h2>
 		<h2 t="Annotations">
 		<p>This is the complete list of annotations supported out-of-the box by Madura Objects. You can add your own to this list and how to do that is described <sectionLink t="Implementing new Validators"/>.
