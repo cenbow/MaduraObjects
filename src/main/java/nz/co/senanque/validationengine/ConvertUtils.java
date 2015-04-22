@@ -134,8 +134,36 @@ public class ConvertUtils
         throw new RuntimeException("Cannot convert from "+obj.getClass().getName()+" to "+clazz.getName());
     }
     
-    public static Object convertToObject(Class<?> clazz, Object obj, MessageSourceAccessor messageSourceAccessor)
+    public static Object convertToObject(Class<?> clazz)
     {
+        if (clazz.isPrimitive())
+        {
+            if (clazz.equals(Long.TYPE))
+            {
+                return new Long(0L);
+            }
+            else if (clazz.equals(Integer.TYPE))
+            {
+                return new Integer(0);
+            }
+            else if (clazz.equals(Float.TYPE))
+            {
+                return new Float(0F);
+            }
+            else if (clazz.equals(Double.TYPE))
+            {
+                return new Double(0D);
+            }
+            else if (clazz.equals(Boolean.TYPE))
+            {
+                return new Boolean(false);
+            }
+        }
+        return null;
+
+    }
+    public static Object convertToObject(Class<?> clazz, Object obj, MessageSourceAccessor messageSourceAccessor)
+        {
         try
         {
             return convertTo(clazz,obj);
