@@ -24,6 +24,7 @@ import java.util.Map;
 import javax.xml.bind.annotation.XmlElement;
 
 import nz.co.senanque.localemanagement.LocaleAwareRuntimeException;
+import nz.co.senanque.validationengine.annotations.Ignore;
 import nz.co.senanque.validationengine.metadata.ClassMetadata;
 import nz.co.senanque.validationengine.metadata.PropertyMetadata;
 import nz.co.senanque.validationengine.metadata.PropertyMetadataImpl;
@@ -125,13 +126,13 @@ public class Binder
             }
             try
             {
-                java.lang.reflect.Field propertyField = getField(clazz,fieldName);
-                XmlElement xmlElement = propertyField.getAnnotation(XmlElement.class);
-                if (xmlElement != null)
-                {
-                	Object value = proxyField.getValue();
-                    proxyField.setInitialValue(value);
+                Method getter = ValidationUtils.figureGetter(fieldName,clazz);
+                if (getter.isAnnotationPresent(Ignore.class)) {
+                	continue;
                 }
+                java.lang.reflect.Field propertyField = getField(clazz,fieldName);
+            	Object value = ConvertUtils.convertToObject(propertyField.getType());
+                proxyField.setInitialValue(value);
             }
             catch (Exception e)
             {
