@@ -85,6 +85,7 @@ public class ObjectTest
         validationSession.bind(customer);
         Invoice invoice = new Invoice();
         invoice.setDescription("test invoice");
+        invoice.setTestBoolean(true);
         customer.getInvoices().add(invoice);
         boolean exceptionFound = false;
         try 
@@ -137,6 +138,7 @@ public class ObjectTest
         invoice = new Invoice();
         ValidationUtils.setDefaults(invoice);
         invoice.setDescription("test invoice2");
+        invoice.setTestBoolean(true);
         customer.getInvoices().add(invoice);
         assertEquals("xyz",invoice.getTestDefault());
         assertEquals("Ag",invoice.getTestEnumDefault().value());
@@ -145,8 +147,12 @@ public class ObjectTest
         // fetch customer again
         customer = m_customerDAO.getCustomer(id);
         customer.toString();
+        final Invoice inv0 = customer.getInvoices().get(0);
+        assertTrue(inv0.isTestBoolean());
+
         validationSession.bind(customer);
         final Invoice inv = customer.getInvoices().get(0);
+        assertTrue(inv.isTestBoolean());
         customer.getInvoices().remove(inv);
         
         //ObjectMetadata metadata = validationSession.getMetadata(customer);
@@ -191,6 +197,7 @@ public class ObjectTest
         assertEquals(3,validationSession.getProxyCount());
         List<Customer> customers = request.getValue().getCustomers();
         assertEquals(1,customers.size());
+        assertTrue(customers.get(0).getInvoices().get(0).isTestBoolean());
         customers.clear();
         assertEquals(1,validationSession.getProxyCount());
         request.toString();
