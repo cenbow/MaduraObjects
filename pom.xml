@@ -19,7 +19,7 @@ But to any Java code the objects still look like ordinary Java beans. The surrou
 		<jaxb22.version>2.2.4-1</jaxb22.version>
 		<choices.schema>src/main/resources/choices.xsd</choices.schema>
 		<messages.schema>src/main/resources/messages.xsd</messages.schema>
-		<hibernate-version>4.1.4.Final</hibernate-version>
+		<hibernate-version>4.2.19.Final</hibernate-version>
 	</properties>
   <parent>
   	<groupId>org.sonatype.oss</groupId>
