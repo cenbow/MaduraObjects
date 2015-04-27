@@ -6,6 +6,7 @@
 	</appender>
 	
 	<logger name="nz.co.senanque.sandbox.HeapTest" level="debug"/>
+<!-- 	<logger name="org.hibernate.tool.hbm2ddl" level="debug"/> -->
   <root level="warn">
     <appender-ref ref="STDOUT" />
   </root>
