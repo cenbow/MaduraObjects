@@ -1,6 +1,6 @@
 <?xml-stylesheet type="text/xsl" href="MaduraHTML.xsl" ?>
 <doc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="http://oss.sonatype.org/content/repositories/releases/nz/co/senanque/maduradocs/6.1.0/maduradocs-6.1.0.xsd">
+	xsi:noNamespaceSchemaLocation="http://oss.sonatype.org/content/repositories/releases/nz/co/senanque/maduradocs/6.0.5/maduradocs-6.0.5.xsd">
 	<title>
 		<MainTitle>MaduraObjects</MainTitle>
 		<SubTitle>User Guide</SubTitle>
@@ -968,6 +968,15 @@ public class NewValidation implements FieldValidator<NewValidation>
 		<note>You need Java 1.7 to compile this project.</note>
 		<table width="12cm">
 			<tw>12cm</tw>
+		<tr>
+			<th>2.2.5</th>
+		</tr>
+        <tr>
+            <td>Clarified unbinding of individual objects.</td>
+        </tr>
+        <tr>
+            <td>Messages.xsd: allow locale name to be optional.</td>
+        </tr>
 		<tr>
 			<th>2.2.4</th>
 		</tr>
